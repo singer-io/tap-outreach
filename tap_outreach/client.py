@@ -1,11 +1,18 @@
+import time
 from datetime import datetime, timedelta
 
 import backoff
 import requests
-from requests.exceptions import ConnectionError
+import singer
 from singer import metrics
+from requests.exceptions import ConnectionError
+
+LOGGER = singer.get_logger()
 
 class Server5xxError(Exception):
+    pass
+
+class RateLimitError(Exception):
     pass
 
 class OutreachClient(object):
@@ -17,6 +24,7 @@ class OutreachClient(object):
         self.__client_secret = config.get('client_secret')
         self.__redirect_uri = config.get('redirect_uri')
         self.__refresh_token = config.get('refresh_token')
+        self.__quota_limit = config.get('quota_limit')
         self.__access_token = None
         self.__expires_at = None
         self.__session = requests.Session()
@@ -44,8 +52,14 @@ class OutreachClient(object):
         self.__expires_at = datetime.utcnow() + \
             timedelta(seconds=data['expires_in'] - 10) # pad by 10 seconds for clock drift
 
+    def sleep_for_reset_period(self, response):
+        reset = datetime.fromtimestamp(int(response.headers['x-ratelimit-reset']))
+        sleep_time = (reset - datetime.now()).total_seconds() + 10 # pad for clock drift/sync issues
+        LOGGER.warn('Sleeping for {:.2f} seconds for next rate limit window'.format(sleep_time))
+        time.sleep(sleep_time)
+
     @backoff.on_exception(backoff.expo,
-                          (Server5xxError, ConnectionError),
+                          (Server5xxError, RateLimitError, ConnectionError),
                           max_tries=5,
                           factor=2)
     def request(self, method, path=None, url=None, **kwargs):
@@ -78,7 +92,20 @@ class OutreachClient(object):
         if response.status_code >= 500:
             raise Server5xxError()
 
+        if response.status_code == 429:
+            LOGGER.warn('Rate limit hit - 429')
+            self.sleep_for_reset_period(response)
+            raise RateLimitError()
+
         response.raise_for_status()
+
+        if self.__quota_limit:
+            # quota_limit > (1 - (X-RateLimit-Remaining / X-RateLimit-Limit))
+            quota_used = 1 - int(response.headers['x-ratelimit-remaining']) / \
+                                int(response.headers['x-ratelimit-remaining'])
+            if quota_used > float(self.__quota_limit):
+                LOGGER.warn('Quota used: {:.2f} / {}'.format(quota_used, self.__quota_limit))
+                self.sleep_for_reset_period(response)
 
         return response.json()
 
