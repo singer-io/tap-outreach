@@ -7,6 +7,16 @@ from tap_outreach.discover import discover
 LOGGER = singer.get_logger()
 
 STEAM_CONFIGS = {
+    'accounts': {
+        'url_path': 'accounts',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
+        'fks': [
+            'creatorId',
+            'ownerId',
+            'updaterId'
+        ]
+    },
     'call_dispositions': {
         'url_path': 'callDispositions',
         'replication': 'incremental',
@@ -15,6 +25,28 @@ STEAM_CONFIGS = {
     },
     'call_purposes': {
         'url_path': 'callPurposes',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
+        'fks': ['creatorId']
+    },
+    'calls': {
+        'url_path': 'calls',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
+        'fks': [
+            'callDispositionId',
+            'callPurposeId',
+            'opportunityId',
+            'prospectId',
+            'sequenceId',
+            'sequenceStateId',
+            'sequenceStepId',
+            'taskId',
+            'userId'
+        ]
+    },
+    'content_categories': {
+        'url_path': 'contentCategories',
         'replication': 'incremental',
         'filter_field': 'updatedAt',
         'fks': ['creatorId']
@@ -35,8 +67,82 @@ STEAM_CONFIGS = {
         'filter_field': 'updatedAt',
         'fks': ['creatorId', 'updaterId']
     },
+    'mailings': {
+        'url_path': 'mailings',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
+        'fks': [
+            'calendarId',
+            'mailboxId',
+            'opportunityId',
+            'prospectId',
+            'sequenceId',
+            'sequenceStateId',
+            'sequenceStepId',
+            'taskId',
+            'templateId'
+        ]
+    },
+    'opportunities': {
+        'url_path': 'opportunities',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
+        'fks': [
+            'accountId',
+            'creatorId',
+            'opportunityStageId',
+            'ownerId'
+        ]
+    },
+    'personas': {
+        'url_path': 'personas',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt'
+    },
+    'prospects': {
+        'url_path': 'prospects',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
+        'fks': [
+            'accountId',
+            'creatorId',
+            'defaultPluginMappingId',
+            'ownerId',
+            'personaId',
+            'stageId',
+            'updaterId'
+        ]
+    },
     'stages': {
         'url_path': 'stages',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
+        'fks': ['creatorId', 'updaterId']
+    },
+    'tasks': {
+        'url_path': 'tasks',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
+        'fks': [
+            'accountId',
+            'callId',
+            'completerId',
+            'creatorId',
+            'mailingId',
+            'opportunityId',
+            'ownerId',
+            'prospectId',
+            'sequenceId',
+            'sequenceStateId',
+            'sequenceStepId',
+            'subjectId',
+            'taskPriorityId',
+            'taskThemeId',
+            'templateId'
+        ]
+    },
+    'teams': {
+        'url_path': 'teams',
         'replication': 'incremental',
         'filter_field': 'updatedAt',
         'fks': ['creatorId', 'updaterId']
