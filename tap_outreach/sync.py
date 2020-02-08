@@ -143,8 +143,7 @@ STEAM_CONFIGS = {
     },
     'teams': {
         'url_path': 'teams',
-        'replication': 'incremental',
-        'filter_field': 'updatedAt',
+        'replication': 'full',
         'fks': ['creatorId', 'updaterId']
     },
     'users': {
@@ -223,8 +222,6 @@ def sync_endpoint(client, catalog, state, start_date, stream, mdata):
     stream_name = stream.tap_stream_id
     last_datetime = get_bookmark(state, stream_name, start_date)
 
-    LOGGER.info('{} - Syncing data since {}'.format(stream.tap_stream_id, last_datetime))
-
     write_schema(stream)
 
     stream_config = STEAM_CONFIGS[stream_name]
@@ -245,6 +242,12 @@ def sync_endpoint(client, catalog, state, start_date, stream, mdata):
         if stream_config.get('replication') == 'incremental':
             query_params['filter[{}]'.format(filter_field)] = '{}..inf'.format(paginate_datetime)
             query_params['sort'] = filter_field
+
+        LOGGER.info('{} - Syncing data since {} - limit: {}, offset: {}'.format(
+            stream.tap_stream_id,
+            last_datetime,
+            count,
+            offset))
 
         data = client.get(
             stream_config['url_path'],
@@ -281,6 +284,8 @@ def sync(client, catalog, state, start_date):
         selected_streams = catalog.streams
     else:
         selected_streams = catalog.get_selected_streams(state)
+
+    selected_streams = sorted(selected_streams, key=lambda x: x.tap_stream_id)
 
     for stream in selected_streams:
         mdata = metadata.to_map(stream.metadata)
