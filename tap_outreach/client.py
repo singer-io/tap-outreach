@@ -39,6 +39,7 @@ class OutreachClient(object):
         data = self.request(
             'POST',
             url='https://api.outreach.io/oauth/token',
+            skip_quota=True,
             data={
                 'client_id': self.__client_id,
                 'client_secret': self.__client_secret,
@@ -61,8 +62,8 @@ class OutreachClient(object):
     @backoff.on_exception(backoff.expo,
                           (Server5xxError, RateLimitError, ConnectionError),
                           max_tries=5,
-                          factor=2)
-    def request(self, method, path=None, url=None, **kwargs):
+                          factor=3)
+    def request(self, method, path=None, url=None, skip_quota=False, **kwargs):
         if url is None and \
             (self.__access_token is None or \
              self.__expires_at <= datetime.utcnow()):
@@ -99,7 +100,7 @@ class OutreachClient(object):
 
         response.raise_for_status()
 
-        if self.__quota_limit:
+        if not skip_quota and self.__quota_limit:
             # quota_limit > (1 - (X-RateLimit-Remaining / X-RateLimit-Limit))
             quota_used = 1 - int(response.headers['x-ratelimit-remaining']) / \
                                 int(response.headers['x-ratelimit-remaining'])
