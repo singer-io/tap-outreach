@@ -97,8 +97,18 @@
     "contactHistogram": {
       "type": [
         "null",
-        "object"
-      ]
+        "array"
+      ],
+      "items": {
+        "type": [
+          "array"
+        ],
+        "items": {
+          "type": [
+            "integer"
+          ]
+        }
+      }
     },
     "createdAt": {
       "type": [
