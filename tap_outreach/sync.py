@@ -7,6 +7,16 @@ from tap_outreach.discover import discover
 LOGGER = singer.get_logger()
 
 STEAM_CONFIGS = {
+    'accounts': {
+        'url_path': 'accounts',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
+        'fks': [
+            'creatorId',
+            'ownerId',
+            'updaterId'
+        ]
+    },
     'call_dispositions': {
         'url_path': 'callDispositions',
         'replication': 'incremental',
@@ -15,6 +25,28 @@ STEAM_CONFIGS = {
     },
     'call_purposes': {
         'url_path': 'callPurposes',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
+        'fks': ['creatorId']
+    },
+    'calls': {
+        'url_path': 'calls',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
+        'fks': [
+            'callDispositionId',
+            'callPurposeId',
+            'opportunityId',
+            'prospectId',
+            'sequenceId',
+            'sequenceStateId',
+            'sequenceStepId',
+            'taskId',
+            'userId'
+        ]
+    },
+    'content_categories': {
+        'url_path': 'contentCategories',
         'replication': 'incremental',
         'filter_field': 'updatedAt',
         'fks': ['creatorId']
@@ -35,10 +67,83 @@ STEAM_CONFIGS = {
         'filter_field': 'updatedAt',
         'fks': ['creatorId', 'updaterId']
     },
+    'mailings': {
+        'url_path': 'mailings',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
+        'fks': [
+            'calendarId',
+            'mailboxId',
+            'opportunityId',
+            'prospectId',
+            'sequenceId',
+            'sequenceStateId',
+            'sequenceStepId',
+            'taskId',
+            'templateId'
+        ]
+    },
+    'opportunities': {
+        'url_path': 'opportunities',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
+        'fks': [
+            'accountId',
+            'creatorId',
+            'opportunityStageId',
+            'ownerId'
+        ]
+    },
+    'personas': {
+        'url_path': 'personas',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt'
+    },
+    'prospects': {
+        'url_path': 'prospects',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
+        'fks': [
+            'accountId',
+            'creatorId',
+            'defaultPluginMappingId',
+            'ownerId',
+            'personaId',
+            'stageId',
+            'updaterId'
+        ]
+    },
     'stages': {
         'url_path': 'stages',
         'replication': 'incremental',
         'filter_field': 'updatedAt',
+        'fks': ['creatorId', 'updaterId']
+    },
+    'tasks': {
+        'url_path': 'tasks',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
+        'fks': [
+            'accountId',
+            'callId',
+            'completerId',
+            'creatorId',
+            'mailingId',
+            'opportunityId',
+            'ownerId',
+            'prospectId',
+            'sequenceId',
+            'sequenceStateId',
+            'sequenceStepId',
+            'subjectId',
+            'taskPriorityId',
+            'taskThemeId',
+            'templateId'
+        ]
+    },
+    'teams': {
+        'url_path': 'teams',
+        'replication': 'full',
         'fks': ['creatorId', 'updaterId']
     },
     'users': {
@@ -117,8 +222,6 @@ def sync_endpoint(client, catalog, state, start_date, stream, mdata):
     stream_name = stream.tap_stream_id
     last_datetime = get_bookmark(state, stream_name, start_date)
 
-    LOGGER.info('{} - Syncing data since {}'.format(stream.tap_stream_id, last_datetime))
-
     write_schema(stream)
 
     stream_config = STEAM_CONFIGS[stream_name]
@@ -139,6 +242,12 @@ def sync_endpoint(client, catalog, state, start_date, stream, mdata):
         if stream_config.get('replication') == 'incremental':
             query_params['filter[{}]'.format(filter_field)] = '{}..inf'.format(paginate_datetime)
             query_params['sort'] = filter_field
+
+        LOGGER.info('{} - Syncing data since {} - limit: {}, offset: {}'.format(
+            stream.tap_stream_id,
+            last_datetime,
+            count,
+            offset))
 
         data = client.get(
             stream_config['url_path'],
@@ -175,6 +284,8 @@ def sync(client, catalog, state, start_date):
         selected_streams = catalog.streams
     else:
         selected_streams = catalog.get_selected_streams(state)
+
+    selected_streams = sorted(selected_streams, key=lambda x: x.tap_stream_id)
 
     for stream in selected_streams:
         mdata = metadata.to_map(stream.metadata)
