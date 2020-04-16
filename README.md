@@ -6,16 +6,14 @@ spec](https://github.com/singer-io/getting-started/blob/master/SPEC.md).
 
 This tap:
 
-- Pulls raw data from the [**CLIENT** API](xxx)
-- Extracts the following resources:
-  - **TBD**
+- Pulls raw data from Outreach API
 - Outputs the schema for each resource
 - Incrementally pulls data based on the input state
 
 
 ## Streams
 
-[accounts]()
+[accounts](https://api.outreach.io/api/v2/docs#account)
 
 [call_dispositions](https://api.outreach.io/api/v2/docs#callDisposition)
 
@@ -61,11 +59,11 @@ This tap:
     > source venv/bin/activate
     > python setup.py install
     OR
-    > cd .../tap-pinterest-ads
+    > cd .../tap-outreach
     > pip install .
     ```
 2. Dependent libraries
-    The following dependent libraries were installed.
+    The following dependent libraries were installed in your virtualenv:
     ```bash
     > pip install singer-python
     > pip install singer-tools
@@ -131,15 +129,16 @@ This tap:
 
 6. Test the Tap
     
-    While developing the PINTEREST-ADS tap, the following utilities were run in accordance with Singer.io best practices:
+    While developing the Outreach tap, the following utilities were run in accordance with Singer.io best practices:
     Pylint to improve [code quality](https://github.com/singer-io/getting-started/blob/master/docs/BEST_PRACTICES.md#code-quality):
     ```bash
-    > pylint tap_outreach -d missing-docstring -d logging-format-interpolation -d too-many-locals -d too-many-arguments
+    > pylint tap_outreach
     ```
-    Pylint test resulted in the following score:
-    ```bash
-    Your code has been rated at 9.83/10
+    The pylint disables that Stitch uses are:
     ```
+    broad-except,chained-comparison,empty-docstring,fixme,invalid-name,line-too-long,missing-class-docstring,missing-function-docstring,missing-module-docstring,no-else-raise,no-else-return,too-few-public-methods,too-many-arguments,too-many-branches,too-many-lines,too-many-locals,ungrouped-imports,wrong-spelling-in-comment,wrong-spelling-in-docstring
+    ```
+
 
     To [check the tap](https://github.com/singer-io/singer-tools#singer-check-tap) and verify working:
     ```bash
