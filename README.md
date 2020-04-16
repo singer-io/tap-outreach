@@ -62,19 +62,8 @@ This tap:
     > cd .../tap-outreach
     > pip install .
     ```
-2. Dependent libraries
-    The following dependent libraries were installed in your virtualenv:
-    ```bash
-    > pip install singer-python
-    > pip install singer-tools
-    > pip install target-stitch
-    > pip install target-json
-    
-    ```
-    - [singer-tools](https://github.com/singer-io/singer-tools)
-    - [target-stitch](https://github.com/singer-io/target-stitch)
 
-3. Here is what the config should look like
+2. Here is what the config should look like
 
     ```json
     {
@@ -101,7 +90,7 @@ This tap:
       }
     ```
 
-4. Run the Tap in Discovery Mode
+3. Run the Tap in Discovery Mode
     This creates a catalog.json for selecting objects/fields to integrate:
     ```bash
     tap-outreach --config config.json --discover > catalog.json
@@ -109,7 +98,7 @@ This tap:
    See the Singer docs on discovery mode
    [here](https://github.com/singer-io/getting-started/blob/master/docs/DISCOVERY_MODE.md#discovery-mode).
 
-5. Run the Tap in Sync Mode (with catalog) and [write out to state file](https://github.com/singer-io/getting-started/blob/master/docs/RUNNING_AND_DEVELOPING.md#running-a-singer-tap-with-a-singer-target)
+4. Run the Tap in Sync Mode (with catalog) and [write out to state file](https://github.com/singer-io/getting-started/blob/master/docs/RUNNING_AND_DEVELOPING.md#running-a-singer-tap-with-a-singer-target)
 
     For Sync mode:
     ```bash
@@ -127,7 +116,7 @@ This tap:
     > tail -1 state.json > state.json.tmp && mv state.json.tmp state.json
     ```
 
-6. Test the Tap
+5. Test the Tap
     
     While developing the Outreach tap, the following utilities were run in accordance with Singer.io best practices:
     Pylint to improve [code quality](https://github.com/singer-io/getting-started/blob/master/docs/BEST_PRACTICES.md#code-quality):
