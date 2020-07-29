@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import backoff
 import requests
 import singer
-from singer import metrics
+from singer import metrics, utils
 from requests.exceptions import ConnectionError
 
 LOGGER = singer.get_logger()
@@ -63,6 +63,8 @@ class OutreachClient(object):
                           (Server5xxError, RateLimitError, ConnectionError),
                           max_tries=5,
                           factor=3)
+    # Rate Limit: https://api.outreach.io/api/v2/docs#rate-limiting
+    @utils.ratelimit(10000, 3600)
     def request(self, method, path=None, url=None, skip_quota=False, **kwargs):
         if url is None and \
             (self.__access_token is None or \
@@ -110,5 +112,5 @@ class OutreachClient(object):
 
         return response.json()
 
-    def get(self, path, **kwargs):
-        return self.request('GET', path=path, **kwargs)
+    def get(self, url=None, path=None, **kwargs):
+        return self.request('GET', url=url, path=path, **kwargs)

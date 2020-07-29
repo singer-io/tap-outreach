@@ -24,6 +24,9 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
+tap_target_commands.sh
+*config.json
+.vscode
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

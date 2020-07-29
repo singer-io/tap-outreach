@@ -1,0 +1,8 @@
+{
+    "start_date": "2019-01-01T00:00:00Z",
+    "client_id": "<CLIENT_ID>",
+    "client_secret": "<CLIENT_SECRET>",
+    "redirect_uri": "<REDIRECT_URI>",
+    "refresh_token": "<REFRESH_TOKEN>",
+    "quota_limit": "<QUOTA_LIMIT>"
+}
