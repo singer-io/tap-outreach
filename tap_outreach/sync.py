@@ -236,7 +236,7 @@ def sync_endpoint(client, catalog, state, start_date, stream, mdata):
     # Pagination: https://api.outreach.io/api/v2/docs#pagination
     # Changed to cursor-based pagination (not offset); offset still used for logging
     offset = 0
-    count = 3 # page size limit
+    count = 500 # page size limit
     has_more = True
     max_modified = last_datetime
     paginate_datetime = last_datetime
