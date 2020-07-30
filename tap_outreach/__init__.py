@@ -25,7 +25,7 @@ def do_discover(client):
     LOGGER.info('Testing authentication')
     try:
         client.get(
-            'stages',
+            path='stages',
             endpoint='stages')
     except:
         raise Exception('Error testing Outreach authentication')

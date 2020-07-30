@@ -161,8 +161,10 @@ STEAM_CONFIGS = {
     }
 }
 
+
 def get_bookmark(state, stream_name, default):
     return state.get('bookmarks', {}).get(stream_name, default)
+
 
 def write_bookmark(state, stream_name, value):
     if 'bookmarks' not in state:
@@ -170,9 +172,11 @@ def write_bookmark(state, stream_name, value):
     state['bookmarks'][stream_name] = value
     singer.write_state(state)
 
+
 def write_schema(stream):
     schema = stream.schema.to_dict()
     singer.write_schema(stream.tap_stream_id, schema, stream.key_properties)
+
 
 def process_records(stream, mdata, max_modified, records, filter_field, fks):
     schema = stream.schema.to_dict()
@@ -218,6 +222,7 @@ def process_records(stream, mdata, max_modified, records, filter_field, fks):
             counter.increment()
         return max_modified
 
+
 def sync_endpoint(client, catalog, state, start_date, stream, mdata):
     stream_name = stream.tap_stream_id
     last_datetime = get_bookmark(state, stream_name, start_date)
@@ -228,37 +233,55 @@ def sync_endpoint(client, catalog, state, start_date, stream, mdata):
     filter_field = stream_config.get('filter_field')
     fks = stream_config.get('fks', [])
 
-    count = 1000
+    # Pagination: https://api.outreach.io/api/v2/docs#pagination
+    # Changed to cursor-based pagination (not offset); offset still used for logging
     offset = 0
+    count = 500 # page size limit
     has_more = True
     max_modified = last_datetime
     paginate_datetime = last_datetime
+    page = 1
+    next_url = None
+
     while has_more:
-        query_params = {
-            'page[limit]': count,
-            'page[offset]': offset
-        }
+        # query_params only needed for first page, next_url incl. params
+        if page == 1:
+            query_params = {
+                'page[size]': count,
+                'count': 'false'
+            }
+            if stream_config.get('replication') == 'incremental':
+                query_params['filter[{}]'.format(filter_field)] = '{}..inf'.format(paginate_datetime)
+                query_params['sort'] = filter_field
 
-        if stream_config.get('replication') == 'incremental':
-            query_params['filter[{}]'.format(filter_field)] = '{}..inf'.format(paginate_datetime)
-            query_params['sort'] = filter_field
-
-        LOGGER.info('{} - Syncing data since {} - limit: {}, offset: {}'.format(
+        LOGGER.info('{} - Syncing data since {} - page: {}, limit: {}, offset: {}'.format(
             stream.tap_stream_id,
             last_datetime,
+            page,
             count,
             offset))
 
-        data = client.get(
-            stream_config['url_path'],
-            params=query_params,
-            endpoint=stream_name)
-        records = data['data']
+        querystring = '&'.join(['%s=%s' % (key, value) for (key, value) in query_params.items()])
+        if page == 1:
+            data = client.get(
+                path=stream_config['url_path'],
+                params=querystring,
+                endpoint=stream_name)
+        else: # next_url
+            data = client.get(
+                url=next_url,
+                params=query_params,
+                endpoint=stream_name)
 
-        if len(records) < count:
+        records = data.get('data', [])
+        next_url = data.get('links', {}).get('next', None)
+
+        if not next_url:
             has_more = False
         else:
+            # LOGGER.info('next_url: {}'.format(next_url))
             offset += count
+            page = page + 1
 
         max_modified = process_records(stream,
                                        mdata,
@@ -267,16 +290,14 @@ def sync_endpoint(client, catalog, state, start_date, stream, mdata):
                                        filter_field,
                                        fks)
 
-        if offset > 10000:
-            paginate_datetime = max_modified
-            offset = 0
-
         if stream_config.get('replication') == 'incremental':
             write_bookmark(state, stream_name, max_modified)
+
 
 def update_current_stream(state, stream_name=None):  
     set_currently_syncing(state, stream_name) 
     singer.write_state(state)
+
 
 def sync(client, catalog, state, start_date):
     if not catalog:

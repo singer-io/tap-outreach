@@ -24,6 +24,9 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
+tap_target_commands.sh
+*config.json
+.vscode
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -117,4 +120,5 @@ test.*.json
 rsa-key
 tags
 singer-check-tap-data
-state.json
+state*.json
+catalog.json
