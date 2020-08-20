@@ -21,6 +21,7 @@ REQUIRED_CONFIG_KEYS = [
     'refresh_token'
 ]
 
+
 def do_discover(client):
     LOGGER.info('Testing authentication')
     try:
@@ -35,6 +36,7 @@ def do_discover(client):
     json.dump(catalog.to_dict(), sys.stdout, indent=2)
     LOGGER.info('Finished discover')
 
+
 @singer.utils.handle_top_exception(LOGGER)
 def main():
     parsed_args = singer.utils.parse_args(REQUIRED_CONFIG_KEYS)
@@ -44,6 +46,7 @@ def main():
             do_discover(client)
         else:
             sync(client,
+                 parsed_args.config,
                  parsed_args.catalog,
                  parsed_args.state,
                  parsed_args.config['start_date'])

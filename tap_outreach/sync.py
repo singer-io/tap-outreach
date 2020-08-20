@@ -187,20 +187,23 @@ def process_records(stream, mdata, max_modified, records, filter_field, fks):
             }
             for prop, value in record['attributes'].items():
                 if prop == 'id':
-                    raise Exception('Error flattening Outeach record - conflict with `id` key')
+                    raise Exception(
+                        'Error flattening Outeach record - conflict with `id` key')
                 record_flat[prop] = value
 
             if 'relationships' in record:
                 for prop, value in record['relationships'].items():
                     if 'data' not in value and 'links' not in value:
-                        raise Exception('Only `data` or `links` expected in relationships')
+                        raise Exception(
+                            'Only `data` or `links` expected in relationships')
 
                     fk_field_name = '{}Id'.format(prop)
 
                     if 'data' in value and fk_field_name in fks:
                         data_value = value['data']
                         if data_value is not None and 'id' not in data_value:
-                            raise Exception('null or `id` field expected for `data` relationship')
+                            raise Exception(
+                                'null or `id` field expected for `data` relationship')
 
                         if fk_field_name in record_flat:
                             raise Exception(
@@ -223,7 +226,7 @@ def process_records(stream, mdata, max_modified, records, filter_field, fks):
         return max_modified
 
 
-def sync_endpoint(client, catalog, state, start_date, stream, mdata):
+def sync_endpoint(client, config, catalog, state, start_date, stream, mdata):
     stream_name = stream.tap_stream_id
     last_datetime = get_bookmark(state, stream_name, start_date)
 
@@ -236,7 +239,7 @@ def sync_endpoint(client, catalog, state, start_date, stream, mdata):
     # Pagination: https://api.outreach.io/api/v2/docs#pagination
     # Changed to cursor-based pagination (not offset); offset still used for logging
     offset = 0
-    count = 500 # page size limit
+    count = config.get('page_size', 250)
     has_more = True
     max_modified = last_datetime
     paginate_datetime = last_datetime
@@ -251,7 +254,8 @@ def sync_endpoint(client, catalog, state, start_date, stream, mdata):
                 'count': 'false'
             }
             if stream_config.get('replication') == 'incremental':
-                query_params['filter[{}]'.format(filter_field)] = '{}..inf'.format(paginate_datetime)
+                query_params['filter[{}]'.format(
+                    filter_field)] = '{}..inf'.format(paginate_datetime)
                 query_params['sort'] = filter_field
 
         LOGGER.info('{} - Syncing data since {} - page: {}, limit: {}, offset: {}'.format(
@@ -261,13 +265,14 @@ def sync_endpoint(client, catalog, state, start_date, stream, mdata):
             count,
             offset))
 
-        querystring = '&'.join(['%s=%s' % (key, value) for (key, value) in query_params.items()])
+        querystring = '&'.join(['%s=%s' % (key, value)
+                                for (key, value) in query_params.items()])
         if page == 1:
             data = client.get(
                 path=stream_config['url_path'],
                 params=querystring,
                 endpoint=stream_name)
-        else: # next_url
+        else:  # next_url
             data = client.get(
                 url=next_url,
                 params=query_params,
@@ -294,12 +299,12 @@ def sync_endpoint(client, catalog, state, start_date, stream, mdata):
             write_bookmark(state, stream_name, max_modified)
 
 
-def update_current_stream(state, stream_name=None):  
-    set_currently_syncing(state, stream_name) 
+def update_current_stream(state, stream_name=None):
+    set_currently_syncing(state, stream_name)
     singer.write_state(state)
 
 
-def sync(client, catalog, state, start_date):
+def sync(client, config, catalog, state, start_date):
     if not catalog:
         catalog = discover()
         selected_streams = catalog.streams
@@ -311,6 +316,7 @@ def sync(client, catalog, state, start_date):
     for stream in selected_streams:
         mdata = metadata.to_map(stream.metadata)
         update_current_stream(state, stream.tap_stream_id)
-        sync_endpoint(client, catalog, state, start_date, stream, mdata)
+        sync_endpoint(client, config, catalog, state,
+                      start_date, stream, mdata)
 
     update_current_stream(state)

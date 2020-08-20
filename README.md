@@ -72,11 +72,12 @@ This tap:
         "client_secret": <CLIENT_SECRET>,
         "redirect_uri": <REDIRECT_URI>,
         "refresh_token": <REFRESH_TOKEN>,
-        "quota_limit": <QUOTA_LIMIT>
+        "quota_limit": <QUOTA_LIMIT>,
+        "page_size": <PAGE_SIZE>
     }
     ```
     The following are required values: `start_date`, `client_id`, `client_secret`, `redirect_uri`, `refresh_token`
-    The following are optional values: `quota_limit`
+    The following are optional values: `quota_limit`, `page_size`
 
     Optionally, also create a `state.json` file. `currently_syncing` is an optional attribute used for identifying the last object to be synced in case the job is interrupted mid-stream. The next run would begin where the last job left off.
 
