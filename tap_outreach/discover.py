@@ -6,8 +6,10 @@ from singer.catalog import Catalog, CatalogEntry, Schema
 SCHEMAS = {}
 FIELD_METADATA = {}
 
+
 def get_abs_path(path):
     return os.path.join(os.path.dirname(os.path.realpath(__file__)), path)
+
 
 def get_schemas():
     global SCHEMAS, FIELD_METADATA
@@ -24,7 +26,7 @@ def get_schemas():
         stream_name = file_name[:-5]
         with open(os.path.join(schemas_path, file_name)) as data_file:
             schema = json.load(data_file)
-            
+
         SCHEMAS[stream_name] = schema
 
         metadata = []
@@ -42,6 +44,7 @@ def get_schemas():
         FIELD_METADATA[stream_name] = metadata
 
     return SCHEMAS, FIELD_METADATA
+
 
 def discover():
     schemas, field_metadata = get_schemas()
