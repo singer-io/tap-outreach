@@ -2,11 +2,9 @@ import singer
 from singer import metrics, metadata, Transformer
 from singer.bookmarks import set_currently_syncing
 
-from tap_outreach.discover import discover
-
 LOGGER = singer.get_logger()
 
-STEAM_CONFIGS = {
+STREAM_CONFIGS = {
     'accounts': {
         'url_path': 'accounts',
         'replication': 'incremental',
@@ -232,7 +230,7 @@ def sync_endpoint(client, config, catalog, state, start_date, stream, mdata):
 
     write_schema(stream)
 
-    stream_config = STEAM_CONFIGS[stream_name]
+    stream_config = STREAM_CONFIGS[stream_name]
     filter_field = stream_config.get('filter_field')
     fks = stream_config.get('fks', [])
 
@@ -305,12 +303,7 @@ def update_current_stream(state, stream_name=None):
 
 
 def sync(client, config, catalog, state, start_date):
-    if not catalog:
-        catalog = discover()
-        selected_streams = catalog.streams
-    else:
-        selected_streams = catalog.get_selected_streams(state)
-
+    selected_streams = catalog.get_selected_streams(state)
     selected_streams = sorted(selected_streams, key=lambda x: x.tap_stream_id)
 
     for stream in selected_streams:
