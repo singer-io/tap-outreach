@@ -6,6 +6,7 @@ import argparse
 
 import singer
 from singer import metadata
+from singer.catalog import write_catalog
 
 from tap_outreach.client import OutreachClient
 from tap_outreach.discover import discover
@@ -21,7 +22,8 @@ REQUIRED_CONFIG_KEYS = [
     'refresh_token'
 ]
 
-def do_discover(client):
+
+def check_auth(client):
     LOGGER.info('Testing authentication')
     try:
         client.get(
@@ -30,20 +32,19 @@ def do_discover(client):
     except:
         raise Exception('Error testing Outreach authentication')
 
-    LOGGER.info('Starting discover')
-    catalog = discover()
-    json.dump(catalog.to_dict(), sys.stdout, indent=2)
-    LOGGER.info('Finished discover')
 
 @singer.utils.handle_top_exception(LOGGER)
 def main():
     parsed_args = singer.utils.parse_args(REQUIRED_CONFIG_KEYS)
+    catalog = parsed_args.catalog if parsed_args.catalog else discover()
 
-    with OutreachClient(parsed_args.config) as client:
-        if parsed_args.discover:
-            do_discover(client)
-        else:
+    if parsed_args.discover:
+        write_catalog(catalog)
+    else:
+        with OutreachClient(parsed_args.config) as client:
+            check_auth(client)
             sync(client,
-                 parsed_args.catalog,
-                 parsed_args.state,
-                 parsed_args.config['start_date'])
+                parsed_args.config,
+                catalog,
+                parsed_args.state,
+                parsed_args.config['start_date'])
