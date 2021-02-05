@@ -124,19 +124,19 @@ STREAM_CONFIGS = {
         'fks': ['creatorId', 'ownerid', 'updaterId']
     },
     'sequence_states': {
-        'url_path': 'sequence_states',
+        'url_path': 'sequenceStates',
         'replication': 'incremental',
         'filter_field': 'updatedAt',
         'fks': ['accountid', 'creatorId', 'prospectId', 'sequenceId']
     },
     'sequence_steps': {
-        'url_path': 'sequence_steps',
+        'url_path': 'sequenceSteps',
         'replication': 'incremental',
         'filter_field': 'updatedAt',
         'fks': ['creatorId', 'sequenceId', 'updaterId']
     },
     'sequence_templates': {
-        'url_path': 'sequence_templates',
+        'url_path': 'sequenceTemplates',
         'replication': 'incremental',
         'filter_field': 'updatedAt',
         'fks': ['creatorId', 'updaterId']
