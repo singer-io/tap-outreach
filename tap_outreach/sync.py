@@ -137,7 +137,7 @@ STREAM_CONFIGS = {
     },
     'sequence_templates': {
         'url_path': 'sequenceTemplates',
-        'replication': 'incremental',
+        'replication': 'full',
         'filter_field': 'updatedAt',
         'fks': ['creatorId', 'updaterId']
     },
