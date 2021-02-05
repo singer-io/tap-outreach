@@ -125,6 +125,12 @@
           "integer"
         ]
       },
+      "numRepliedProspects": {
+        "type": [
+          "null",
+          "integer"
+        ]
+      },
       "openCount": {
         "type": [
           "null",
