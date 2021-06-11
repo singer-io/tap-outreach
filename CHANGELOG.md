@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.0
+  * Adds sequence, sequence_template, sequence_state, sequence_step tables [#11](https://github.com/singer-io/tap-outreach/pull/11)
+
 ## 0.5.0
   * Add `page_size` a config option [#7](https://github.com/singer-io/tap-outreach/pull/7)
 
