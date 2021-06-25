@@ -1,0 +1,42 @@
+version: 2.1
+orbs:
+  slack: circleci/slack@3.4.2
+
+jobs:
+  build:
+    docker:
+      - image: 218546966473.dkr.ecr.us-east-1.amazonaws.com/circle-ci:tap-tester-v4
+    steps:
+      - checkout
+      - run:
+          name: 'Setup virtual env'
+          command: |
+            python3 -mvenv /usr/local/share/virtualenvs/tap-outreach
+            source /usr/local/share/virtualenvs/tap-outreach/bin/activate
+            pip install -U pip setuptools
+            pip install .[dev]
+      - run:
+          name: 'JSON Validator'
+          command: |
+            source /usr/local/share/virtualenvs/tap-tester/bin/activate
+            stitch-validate-json tap_outreach/schemas/*.json
+      - slack/notify-on-failure:
+          only_for_branches: master
+
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - build:
+          context: circleci-user
+  build_daily:
+    triggers:
+      - schedule:
+          cron: "0 6 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - build:
+          context: circleci-user
