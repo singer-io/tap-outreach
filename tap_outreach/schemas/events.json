@@ -39,6 +39,12 @@
         "integer"
       ]
     },
+    "name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
     "payload": {
       "type": [
         "null",
