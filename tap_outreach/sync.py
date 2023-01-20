@@ -227,9 +227,11 @@ def process_records(stream, mdata, max_modified, records, filter_field, fks):
                             raise Exception(
                                 'null or `id` field expected for `data` relationship')
 
-                        if fk_field_name in record_flat:
-                            raise Exception(
-                                '`{}` exists as both an attribute and generated relationship name'.format(fk_field_name))
+                        # January 2023: Let relationship value of record take precedence over attribute value (will take precedence at line 214)
+                        # (https://github.com/singer-io/tap-outreach/issues/20)
+                        # if fk_field_name in record_flat:
+                        #     raise Exception(
+                        #         '`{}` exists as both an attribute and generated relationship name'.format(fk_field_name))
 
                         if data_value == None:
                             record_flat[fk_field_name] = None
