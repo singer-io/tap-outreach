@@ -46,13 +46,6 @@
       ],
       "format": "date-time"
     },
-    "updatedAt": {
-      "type": [
-        "null",
-        "string"
-      ],
-      "format": "date-time"
-    },
     "deliveredAt": {
       "type": [
         "null",
@@ -285,6 +278,18 @@
         "null",
         "integer"
       ]
+    },
+    "dataConnections": {
+      "type": [
+        "null",
+        "array"
+      ],
+      "items": {
+        "type": [
+          "null",
+          "object"
+        ]
+      }
     }
   }
 }

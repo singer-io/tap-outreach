@@ -834,6 +834,18 @@
       ],
       "format": "date-time"
     },
+    "updaterId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "updaterType": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
     "voipPhones": {
       "type": [
         "null",
@@ -912,11 +924,17 @@
         "integer"
       ]
     },
-    "updaterId": {
+    "dataConnections": {
       "type": [
         "null",
-        "integer"
-      ]
+        "array"
+      ],
+      "items": {
+        "type": [
+          "null",
+          "object"
+        ]
+      }
     }
   }
 } 

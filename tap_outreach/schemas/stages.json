@@ -50,6 +50,18 @@
         "null",
         "integer"
       ]
+    },
+    "dataConnections": {
+      "type": [
+        "null",
+        "array"
+      ],
+      "items": {
+        "type": [
+          "null",
+          "object"
+        ]
+      }
     }
   }
 }

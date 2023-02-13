@@ -13,7 +13,8 @@ STREAM_CONFIGS = {
             'creatorId',
             'ownerId',
             'updaterId'
-        ]
+        ],
+        'provideDataConnections': True
     },
     'call_dispositions': {
         'url_path': 'callDispositions',
@@ -41,7 +42,8 @@ STREAM_CONFIGS = {
             'sequenceStepId',
             'taskId',
             'userId'
-        ]
+        ],
+        'provideDataConnections': True
     },
     'content_categories': {
         'url_path': 'contentCategories',
@@ -57,7 +59,8 @@ STREAM_CONFIGS = {
         'url_path': 'events',
         'replication': 'incremental',
         'filter_field': 'eventAt',
-        'fks': ['prospectId', 'userId']
+        'fks': ['prospectId', 'userId'],
+        'provideDataConnections': True
     },
     'mailboxes': {
         'url_path': 'mailboxes',
@@ -79,7 +82,8 @@ STREAM_CONFIGS = {
             'sequenceStepId',
             'taskId',
             'templateId'
-        ]
+        ],
+        'provideDataConnections': True
     },
     'opportunities': {
         'url_path': 'opportunities',
@@ -90,7 +94,8 @@ STREAM_CONFIGS = {
             'creatorId',
             'opportunityStageId',
             'ownerId'
-        ]
+        ],
+        'provideDataConnections': True
     },
     'personas': {
         'url_path': 'personas',
@@ -107,15 +112,16 @@ STREAM_CONFIGS = {
             'defaultPluginMappingId',
             'ownerId',
             'personaId',
-            'stageId',
-            'updaterId'
-        ]
+            'stageId'
+        ],
+        'provideDataConnections': True
     },
     'stages': {
         'url_path': 'stages',
         'replication': 'incremental',
         'filter_field': 'updatedAt',
-        'fks': ['creatorId', 'updaterId']
+        'fks': ['creatorId', 'updaterId'],
+        'provideDataConnections': True
     },
     'sequences': {
         'url_path': 'sequences',
@@ -161,7 +167,8 @@ STREAM_CONFIGS = {
             'taskPriorityId',
             'taskThemeId',
             'templateId'
-        ]
+        ],
+        'provideDataConnections': True
     },
     'teams': {
         'url_path': 'teams',
@@ -179,7 +186,8 @@ STREAM_CONFIGS = {
             'roleId',
             'creatorId',
             'updaterId'
-        ]
+        ],
+        'provideDataConnections': True
     }
 }
 
@@ -236,6 +244,9 @@ def process_records(stream, mdata, max_modified, records, filter_field, fks):
                         else:
                             record_flat[fk_field_name] = data_value['id']
 
+            if 'meta' in record and 'dataConnections' in record['meta']:
+                record_flat['dataConnections'] = record['meta']['dataConnections']
+
             if filter_field in record_flat and record_flat[filter_field] > max_modified:
                 max_modified = record_flat[filter_field]
 
@@ -279,6 +290,9 @@ def sync_endpoint(client, config, catalog, state, start_date, stream, mdata):
                 query_params['filter[{}]'.format(
                     filter_field)] = '{}..inf'.format(paginate_datetime)
                 query_params['sort'] = filter_field
+
+        if stream_config.get('provideDataConnections'):
+            query_params['provideDataConnections'] = True
 
         LOGGER.info('{} - Syncing data since {} - page: {}, limit: {}, offset: {}'.format(
             stream.tap_stream_id,
