@@ -103,6 +103,11 @@ class OutreachClient(object):
         if response.status_code >= 500:
             raise Server5xxError(response.text)
 
+        if response.status_code == 401:
+            LOGGER.warn('Authorization error - 401')
+            self.refresh()
+            raise ConnectionError()
+
         if response.status_code == 429:
             LOGGER.warn('Rate limit hit - 429')
             self.sleep_for_reset_period(response)
