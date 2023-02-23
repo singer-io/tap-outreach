@@ -5,7 +5,7 @@ import backoff
 import requests
 import singer
 from singer import metrics, utils
-from requests.exceptions import ConnectionError
+from requests.exceptions import ConnectionError, ChunkedEncodingError
 
 LOGGER = singer.get_logger()
 
@@ -67,7 +67,7 @@ class OutreachClient(object):
         time.sleep(sleep_time)
 
     @backoff.on_exception(backoff.expo,
-                          (Server5xxError, RateLimitError, ConnectionError),
+                          (Server5xxError, RateLimitError, ConnectionError, ChunkedEncodingError),
                           max_tries=5,
                           factor=3)
     # Rate Limit: https://api.outreach.io/api/v2/docs#rate-limiting
