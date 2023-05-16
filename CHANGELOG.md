@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.8.0
+  * Relationship precedence over attributes for `Prospects` stream [#25](https://github.com/singer-io/tap-outreach/pull/25)
+
 ## 0.7.0
   * Add the `name` field to the `Events` stream [#13](https://github.com/singer-io/tap-outreach/pull/13)
 
