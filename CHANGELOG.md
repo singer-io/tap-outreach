@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.8.1
+  * Dependabot update [#26](https://github.com/singer-io/tap-outreach/pull/26)
+
 ## 0.8.0
   * Relationship precedence over attributes for `Prospects` stream [#25](https://github.com/singer-io/tap-outreach/pull/25)
 
