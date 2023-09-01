@@ -8,7 +8,7 @@ from singer import metrics, utils
 from requests.exceptions import ConnectionError
 
 LOGGER = singer.get_logger()
-
+REQUEST_TIMEOUT = 300
 
 class Server5xxError(Exception):
     pass
@@ -31,6 +31,12 @@ class OutreachClient(object):
         self.__access_token = None
         self.__expires_at = None
         self.__session = requests.Session()
+        # if request_timeout is other than 0,"0" or "" then use request_timeout
+        request_timeout = config.get('request_timeout')
+        if request_timeout and float(request_timeout):
+            self.request_timeout = float(request_timeout)
+        else: # If value is 0,"0" or "" then set default to 300 seconds.
+            self.request_timeout = REQUEST_TIMEOUT
 
     def __enter__(self):
         return self
@@ -97,7 +103,7 @@ class OutreachClient(object):
             kwargs['headers']['User-Agent'] = self.__user_agent
 
         with metrics.http_request_timer(endpoint) as timer:
-            response = self.__session.request(method, url, **kwargs)
+            response = self.__session.request(method, url, timeout=self.request_timeout, **kwargs)
             timer.tags[metrics.Tag.http_status_code] = response.status_code
 
         if response.status_code >= 500:
