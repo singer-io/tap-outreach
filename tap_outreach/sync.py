@@ -115,7 +115,6 @@ STREAM_CONFIGS = {
         'fks': [
             'accountId',
             'creatorId',
-            'defaultPluginMappingId',
             'ownerId',
             'personaId',
             'stageId',
