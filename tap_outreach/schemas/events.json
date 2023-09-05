@@ -33,12 +33,6 @@
         "string"
       ]
     },
-    "mailingId": {
-      "type": [
-        "null",
-        "integer"
-      ]
-    },
     "name": {
       "type": [
         "null",
@@ -81,7 +75,37 @@
         "boolean"
       ]
     },
+    "accountId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "callId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "mailingId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "opportunityId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
     "prospectId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "taskId": {
       "type": [
         "null",
         "integer"

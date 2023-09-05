@@ -58,7 +58,15 @@ STREAM_CONFIGS = {
         'url_path': 'events',
         'replication': 'incremental',
         'filter_field': 'eventAt',
-        'fks': ['prospectId', 'userId']
+        'fks': [
+            'accountId',
+            'callId',
+            'mailingId',
+            'opportunityId',
+            'prospectId',
+            'taskId',
+            'userId'
+        ]
     },
     'mailboxes': {
         'url_path': 'mailboxes',
