@@ -137,7 +137,15 @@ STREAM_CONFIGS = {
         'url_path': 'sequenceStates',
         'replication': 'incremental',
         'filter_field': 'updatedAt',
-        'fks': ['accountid', 'creatorId', 'prospectId', 'sequenceId']
+        'fks': [
+            'accountId',
+            'creatorId',
+            'mailboxId',
+            'opportunityId',
+            'prospectId',
+            'sequenceId',
+            'sequenceStepId'
+        ]
     },
     'sequence_steps': {
         'url_path': 'sequenceSteps',
