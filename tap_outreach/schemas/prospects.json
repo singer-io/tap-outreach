@@ -94,6 +94,12 @@
         "integer"
       ]
     },
+    "company": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
     "contactHistogram": {
       "type": [
         "null",
@@ -447,6 +453,576 @@
         "string"
       ]
     },
+    "custom56": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom57": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom58": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom59": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom60": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom61": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom62": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom63": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom64": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom65": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom66": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom67": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom68": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom69": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom70": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom71": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom72": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom73": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom74": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom75": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom76": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom77": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom78": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom79": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom80": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom81": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom82": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom83": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom84": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom85": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom86": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom87": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom88": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom89": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom90": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom91": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom92": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom93": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom94": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom95": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom96": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom97": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom98": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom99": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom100": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom101": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom102": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom103": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom104": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom105": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom106": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom107": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom108": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom109": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom110": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom111": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom112": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom113": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom114": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom115": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom116": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom117": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom118": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom119": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom120": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom121": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom122": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom123": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom124": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom125": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom126": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom127": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom128": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom129": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom130": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom131": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom132": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom133": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom134": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom135": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom136": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom137": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom138": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom139": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom140": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom141": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom142": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom143": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom144": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom145": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom146": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom147": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom148": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom149": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "custom150": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
     "dateOfBirth": {
       "type": [
         "null",
@@ -574,8 +1150,14 @@
     "homePhones": {
       "type": [
         "null",
-        "string"
-      ]
+        "array"
+      ],
+      "items": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
     },
     "jobStartDate": {
       "type": [
@@ -726,26 +1308,13 @@
     "score": {
       "type": [
         "null",
-        "integer"
+        "number"
       ]
     },
-    "smsOptStatus": {
+    "sharingTeamId": {
       "type": [
         "null",
         "string"
-      ]
-    },
-    "smsOptedAt": {
-      "type": [
-        "null",
-        "string"
-      ],
-      "format": "date-time"
-    },
-    "smsOptedOut": {
-      "type": [
-        "null",
-        "boolean"
       ]
     },
     "source": {
@@ -809,6 +1378,13 @@
       ]
     },
     "touchedAt": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "format": "date-time"
+    },
+    "trashedAt": {
       "type": [
         "null",
         "string"
@@ -883,12 +1459,6 @@
       ]
     },
     "creatorId": {
-      "type": [
-        "null",
-        "integer"
-      ]
-    },
-    "defaultPluginMappingId": {
       "type": [
         "null",
         "integer"
