@@ -35,6 +35,7 @@ STREAM_CONFIGS = {
             'callDispositionId',
             'callPurposeId',
             'opportunityId',
+            'phoneNumberId',
             'prospectId',
             'sequenceId',
             'sequenceStateId',

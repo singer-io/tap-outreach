@@ -20,12 +20,6 @@
       ],
       "format": "date-time"
     },
-    "globalId": {
-      "type": [
-        "null",
-        "string"
-      ]
-    },
     "name": {
       "type": [
         "null",
