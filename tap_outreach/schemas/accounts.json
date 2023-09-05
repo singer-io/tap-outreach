@@ -1013,7 +1013,7 @@
     "sharingTeamId": {
       "type": [
         "null",
-        "integer"
+        "string"
       ]
     },
     "tags": {
