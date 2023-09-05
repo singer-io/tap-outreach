@@ -13,12 +13,6 @@
         "string"
       ]
     },
-    "name": {
-      "type": [
-        "null",
-        "string"
-      ]
-    },
     "createdAt": {
       "type": [
         "null",
@@ -26,7 +20,31 @@
       ],
       "format": "date-time"
     },
-    "createdAt": {
+    "globalId": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "scimExternalId": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "scimSource": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "updatedAt": {
       "type": [
         "null",
         "string"
