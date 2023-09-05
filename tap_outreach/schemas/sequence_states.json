@@ -64,7 +64,7 @@
           "integer"
         ]
       },
-      "naturalReplyCount": {
+      "neutralReplyCount": {
         "type": [
           "null",
           "integer"
@@ -145,6 +145,18 @@
           "integer"
         ]
       },
+      "mailboxId": {
+        "type": [
+          "null",
+          "integer"
+        ]
+      },
+      "opportunityId": {
+        "type": [
+          "null",
+          "integer"
+        ]
+      },
       "prospectId": {
         "type": [
           "null",
@@ -152,6 +164,12 @@
         ]
       },
       "sequenceId": {
+        "type": [
+          "null",
+          "integer"
+        ]
+      },
+      "sequenceStepId": {
         "type": [
           "null",
           "integer"
