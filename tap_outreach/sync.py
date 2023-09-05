@@ -131,7 +131,7 @@ STREAM_CONFIGS = {
         'url_path': 'sequences',
         'replication': 'incremental',
         'filter_field': 'updatedAt',
-        'fks': ['creatorId', 'ownerId', 'updaterId']
+        'fks': ['creatorId', 'ownerId', 'rulesetId', 'updaterId']
     },
     'sequence_states': {
         'url_path': 'sequenceStates',

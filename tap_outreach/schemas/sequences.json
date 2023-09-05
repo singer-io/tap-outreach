@@ -212,8 +212,14 @@
       "tags": {
         "type": [
           "null",
-          "string"
-        ]
+          "array"
+        ],
+        "items": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
       },
       "throttleCapacity": {
         "type": [
@@ -260,6 +266,12 @@
         ]
       },
       "ownerId": {
+        "type": [
+          "null",
+          "integer"
+        ]
+      },
+      "rulesetId": {
         "type": [
           "null",
           "integer"
