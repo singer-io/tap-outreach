@@ -50,6 +50,18 @@
         "string"
       ],
       "format": "date-time"
+    },
+    "creatorId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "updaterId": {
+      "type": [
+        "null",
+        "integer"
+      ]
     }
   }
 }
