@@ -181,9 +181,9 @@ STREAM_CONFIGS = {
             'sequenceId',
             'sequenceStateId',
             'sequenceStepId',
+            'sequenceTemplateId',
             'subjectId',
             'taskPriorityId',
-            'taskThemeId',
             'templateId'
         ]
     },
