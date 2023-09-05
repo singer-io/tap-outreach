@@ -143,7 +143,13 @@ STREAM_CONFIGS = {
         'url_path': 'sequenceSteps',
         'replication': 'incremental',
         'filter_field': 'updatedAt',
-        'fks': ['creatorId', 'sequenceId', 'updaterId']
+        'fks': [
+            'callPurposeId',
+            'creatorId',
+            'sequenceId',
+            'taskPriorityId',
+            'updaterId'
+        ]
     },
     'sequence_templates': {
         'url_path': 'sequenceTemplates',
