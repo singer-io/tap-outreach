@@ -98,7 +98,9 @@ STREAM_CONFIGS = {
             'accountId',
             'creatorId',
             'opportunityStageId',
-            'ownerId'
+            'ownerId',
+            'stageId',
+            'updaterId'
         ]
     },
     'personas': {
