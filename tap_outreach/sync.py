@@ -79,7 +79,7 @@ STREAM_CONFIGS = {
         'replication': 'incremental',
         'filter_field': 'updatedAt',
         'fks': [
-            'calendarId',
+            'followUpSequenceId',
             'mailboxId',
             'opportunityId',
             'prospectId',
