@@ -1,6 +1,7 @@
 import unittest
 from tap_outreach.sync import process_records
 
+
 class MockSchema:
     def to_dict(self):
         pass
@@ -58,7 +59,7 @@ class TestProcessRecord(unittest.TestCase):
         """call `process_records` function and by passing the `mock_id_records` in
         the param.
         We expect the exception to be raised -
-        `Only `data` or `links` expected in relationships`
+        `null or `id` field expected for `data` relationship`
         """
         mock_records = [{"id": 1, "attributes": {}, "relationships": {"prop": {"data": "data_value"}}}]
         mock_stream = MockStream()
@@ -78,7 +79,7 @@ class TestProcessRecord(unittest.TestCase):
         """call `process_records` function and by passing the `mock_id_records` in
         the param.
         We expect the exception to be raised -
-        `Only `data` or `links` expected in relationships`
+        ``propId` exists as both an attribute and generated relationship name`
         """
         mock_records = [{"id": 1, "attributes": {"propId": 456}, "relationships": {"prop": {"data": {"id": 123}}}}]
         mock_stream = MockStream()
