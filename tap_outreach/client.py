@@ -65,7 +65,8 @@ class OutreachClient():
             timedelta(seconds=data['expires_in'] -
                       10)  # pad by 10 seconds for clock drift
 
-    def sleep_for_reset_period(self, response):
+    @staticmethod
+    def sleep_for_reset_period(response):
         reset = datetime.fromtimestamp(
             int(response.headers['x-ratelimit-reset']))
         sleep_time = (reset - datetime.now()).total_seconds() + \
