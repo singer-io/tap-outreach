@@ -28,11 +28,11 @@ def get_schemas():
             singer.resolve_schema_references(schema, refs)
 
         replication = STREAM_CONFIGS[stream_name]['replication']
-        replication_keys = STREAM_CONFIGS[stream_name].get('filter_field', None)
+        replication_key = STREAM_CONFIGS[stream_name].get('filter_field', None)
         meta = metadata.get_standard_metadata(
             schema=schema,
             key_properties=['id'],
-            valid_replication_keys=[replication_keys] if replication_keys else [],
+            valid_replication_keys=[replication_key] if replication_key else [],
             replication_method='FULL_TABLE' if replication == 'full' else replication.upper()
         )
 

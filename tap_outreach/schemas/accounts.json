@@ -9,6 +9,7 @@
     },
     "buyerIntentScore": {
       "type": [
+        "null",
         "number"
       ]
     },
