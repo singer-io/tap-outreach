@@ -16,9 +16,9 @@ setup(name='tap-outreach',
       ],
       extras_require={
           'dev': [
-              'pylint==2.6.2',
               'ipdb',
               'nose',
+              'pylint==2.6.2',
               'requests-mock==1.9.3'
           ]
       },
