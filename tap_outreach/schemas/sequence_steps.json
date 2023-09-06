@@ -31,7 +31,7 @@
           "null",
           "string"
         ],
-        "format": "date"
+        "format": "date-time"
       },
       "deliverCount": {
         "type": [
