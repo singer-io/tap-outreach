@@ -10,7 +10,7 @@ from singer.catalog import write_catalog
 
 from tap_outreach.client import OutreachClient
 from tap_outreach.discover import discover
-from tap_outreach.sync import sync
+from tap_outreach.sync import sync_stream
 
 LOGGER = singer.get_logger()
 
@@ -43,7 +43,7 @@ def main():
     else:
         with OutreachClient(parsed_args.config) as client:
             check_auth(client)
-            sync(client,
+            sync_stream(client,
                 parsed_args.config,
                 catalog,
                 parsed_args.state,
