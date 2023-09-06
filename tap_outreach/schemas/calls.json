@@ -28,7 +28,7 @@
       ],
       "format": "date-time"
     },
-    "updatedAt": {
+    "dialedAt": {
       "type": [
         "null",
         "string"
@@ -36,6 +36,12 @@
       "format": "date-time"
     },
     "direction": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "externalVendor": {
       "type": [
         "null",
         "string"
@@ -78,6 +84,12 @@
         "string"
       ]
     },
+    "shouldRecordCall": {
+      "type": [
+        "null",
+        "boolean"
+      ]
+    },
     "state": {
       "type": [
         "null",
@@ -109,7 +121,26 @@
         "string"
       ]
     },
+    "uid": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "updatedAt": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "format": "date-time"
+    },
     "userCallType": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "vendorCallId": {
       "type": [
         "null",
         "string"
@@ -134,6 +165,12 @@
       ]
     },
     "opportunityId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "phoneNumberId": {
       "type": [
         "null",
         "integer"

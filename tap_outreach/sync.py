@@ -35,6 +35,7 @@ STREAM_CONFIGS = {
             'callDispositionId',
             'callPurposeId',
             'opportunityId',
+            'phoneNumberId',
             'prospectId',
             'sequenceId',
             'sequenceStateId',
@@ -57,7 +58,15 @@ STREAM_CONFIGS = {
         'url_path': 'events',
         'replication': 'incremental',
         'filter_field': 'eventAt',
-        'fks': ['prospectId', 'userId']
+        'fks': [
+            'accountId',
+            'callId',
+            'mailingId',
+            'opportunityId',
+            'prospectId',
+            'taskId',
+            'userId'
+        ]
     },
     'mailboxes': {
         'url_path': 'mailboxes',
@@ -70,7 +79,7 @@ STREAM_CONFIGS = {
         'replication': 'incremental',
         'filter_field': 'updatedAt',
         'fks': [
-            'calendarId',
+            'followUpSequenceId',
             'mailboxId',
             'opportunityId',
             'prospectId',
@@ -89,7 +98,9 @@ STREAM_CONFIGS = {
             'accountId',
             'creatorId',
             'opportunityStageId',
-            'ownerId'
+            'ownerId',
+            'stageId',
+            'updaterId'
         ]
     },
     'personas': {
@@ -104,7 +115,6 @@ STREAM_CONFIGS = {
         'fks': [
             'accountId',
             'creatorId',
-            'defaultPluginMappingId',
             'ownerId',
             'personaId',
             'stageId',
@@ -121,25 +131,39 @@ STREAM_CONFIGS = {
         'url_path': 'sequences',
         'replication': 'incremental',
         'filter_field': 'updatedAt',
-        'fks': ['creatorId', 'ownerid', 'updaterId']
+        'fks': ['creatorId', 'ownerId', 'rulesetId', 'updaterId']
     },
     'sequence_states': {
         'url_path': 'sequenceStates',
         'replication': 'incremental',
         'filter_field': 'updatedAt',
-        'fks': ['accountid', 'creatorId', 'prospectId', 'sequenceId']
+        'fks': [
+            'accountId',
+            'creatorId',
+            'mailboxId',
+            'opportunityId',
+            'prospectId',
+            'sequenceId',
+            'sequenceStepId'
+        ]
     },
     'sequence_steps': {
         'url_path': 'sequenceSteps',
         'replication': 'incremental',
         'filter_field': 'updatedAt',
-        'fks': ['creatorId', 'sequenceId', 'updaterId']
+        'fks': [
+            'callPurposeId',
+            'creatorId',
+            'sequenceId',
+            'taskPriorityId',
+            'updaterId'
+        ]
     },
     'sequence_templates': {
         'url_path': 'sequenceTemplates',
-        'replication': 'full',
+        'replication': 'incremental',
         'filter_field': 'updatedAt',
-        'fks': ['creatorId', 'updaterId']
+        'fks': ['creatorId', 'sequenceStepId', 'templateId', 'updaterId']
     },
     'tasks': {
         'url_path': 'tasks',
@@ -157,15 +181,16 @@ STREAM_CONFIGS = {
             'sequenceId',
             'sequenceStateId',
             'sequenceStepId',
+            'sequenceTemplateId',
             'subjectId',
             'taskPriorityId',
-            'taskThemeId',
             'templateId'
         ]
     },
     'teams': {
         'url_path': 'teams',
-        'replication': 'full',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
         'fks': ['creatorId', 'updaterId']
     },
     'users': {
@@ -173,7 +198,6 @@ STREAM_CONFIGS = {
         'replication': 'incremental',
         'filter_field': 'updatedAt',
         'fks': [
-            'calendarId',
             'mailboxId',
             'profileId',
             'roleId',
