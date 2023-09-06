@@ -322,7 +322,7 @@ def update_current_stream(state, stream_name=None):
     singer.write_state(state)
 
 
-def sync_stream(client, config, catalog, state, start_date):
+def sync(client, config, catalog, state, start_date):
     selected_streams = catalog.get_selected_streams(state)
     selected_streams = sorted(selected_streams, key=lambda x: x.tap_stream_id)
 
