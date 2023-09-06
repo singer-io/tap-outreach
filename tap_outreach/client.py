@@ -31,18 +31,27 @@ class OutreachClient(object):
         self.__access_token = None
         self.__expires_at = None
         self.__session = requests.Session()
-        # if request_timeout is other than 0,"0" or "" then use request_timeout
-        request_timeout = config.get('request_timeout')
-        if request_timeout and float(request_timeout):
-            self.request_timeout = float(request_timeout)
-        else: # If value is 0,"0" or "" then set default to 300 seconds.
-            self.request_timeout = REQUEST_TIMEOUT
+        self.request_timeout = self.get_request_timeout(config)
 
     def __enter__(self):
         return self
 
     def __exit__(self, type, value, traceback):
         self.__session.close()
+
+    def get_request_timeout(self, config):
+        """
+        Get the request timeout from the config, if not present use the default 300 seconds.
+        """
+        # Get the value of request timeout from config
+        config_request_timeout = config.get('request_timeout')
+
+        # Only return the timeout value if it is passed in the config and the value is not 0, "0" or ""
+        if config_request_timeout and float(config_request_timeout):
+            return float(config_request_timeout)
+
+        # Return default timeout
+        return REQUEST_TIMEOUT
 
     def refresh(self):
         data = self.request(
