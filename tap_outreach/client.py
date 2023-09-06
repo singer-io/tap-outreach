@@ -5,7 +5,6 @@ import backoff
 import requests
 import singer
 from singer import metrics, utils
-from requests.exceptions import ConnectionError
 
 LOGGER = singer.get_logger()
 REQUEST_TIMEOUT = 300
@@ -18,7 +17,7 @@ class RateLimitError(Exception):
     pass
 
 
-class OutreachClient(object):
+class OutreachClient():
     BASE_URL = 'https://api.outreach.io/api/v2/'
 
     def __init__(self, config):
@@ -66,12 +65,13 @@ class OutreachClient(object):
             timedelta(seconds=data['expires_in'] -
                       10)  # pad by 10 seconds for clock drift
 
-    def sleep_for_reset_period(self, response):
+    @staticmethod
+    def sleep_for_reset_period(response):
         reset = datetime.fromtimestamp(
             int(response.headers['x-ratelimit-reset']))
         sleep_time = (reset - datetime.now()).total_seconds() + \
             10  # pad for clock drift/sync issues
-        LOGGER.warn(
+        LOGGER.warning(
             'Sleeping for {:.2f} seconds for next rate limit window'.format(sleep_time))
         time.sleep(sleep_time)
 
@@ -113,7 +113,7 @@ class OutreachClient(object):
             raise Server5xxError(response.text)
 
         if response.status_code == 429:
-            LOGGER.warn('Rate limit hit - 429')
+            LOGGER.warning('Rate limit hit - 429')
             self.sleep_for_reset_period(response)
             raise RateLimitError()
 
@@ -124,7 +124,7 @@ class OutreachClient(object):
             quota_used = 1 - int(response.headers['x-ratelimit-remaining']) / \
                 int(response.headers['x-ratelimit-remaining'])
             if quota_used > float(self.__quota_limit):
-                LOGGER.warn(
+                LOGGER.warning(
                     'Quota used: {:.2f} / {}'.format(quota_used, self.__quota_limit))
                 self.sleep_for_reset_period(response)
 
