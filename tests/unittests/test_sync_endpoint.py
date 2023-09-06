@@ -43,7 +43,6 @@ class SyncEndpoint(unittest.TestCase):
         sync.sync_endpoint(
             mock_client,
             mock_config,
-            "mock_catalog",
             mock_state,
             mock_config["start_date"],
             mock_stream,
