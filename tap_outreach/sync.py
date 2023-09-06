@@ -161,8 +161,7 @@ STREAM_CONFIGS = {
     },
     'sequence_templates': {
         'url_path': 'sequenceTemplates',
-        'replication': 'incremental',
-        'filter_field': 'updatedAt',
+        'replication': 'full',
         'fks': ['creatorId', 'sequenceStepId', 'templateId', 'updaterId']
     },
     'tasks': {
