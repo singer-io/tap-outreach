@@ -41,6 +41,9 @@ class TestTimeoutValue(unittest.TestCase):
         ["test_empty_value", {"request_timeout": ""}, 300.0],
         ["test_int_zero_value", {"request_timeout": 0}, 300.0],
         ["test_str_zero_value", {"request_timeout": "0"}, 300.0],
+        ["test_str_float_value", {"request_timeout": "100.1"}, 100.1],
+        ["test_float_value", {"request_timeout": 100.1}, 100.1],
+        ["test_none_value", {"request_timeout": None}, 300.0],
         ["test_no_value", {"request_timeout": "0"}, REQUEST_TIMEOUT]
 
     ])
@@ -53,12 +56,8 @@ class TestTimeoutValue(unittest.TestCase):
 
         test_client = OutreachClient(mock_config)
 
-        # get the timeout value for assertion
-        timeout = test_client.get_request_timeout(mock_config)
         test_client.request(method='get', url='')
 
-        # verify that we got expected timeout value
-        self.assertEqual(expected_value, timeout)
         # verify that the request was called with expected timeout value
         mock_request.assert_called_with('get', '', timeout=expected_value, headers={'Authorization': 'Bearer None'})
 
