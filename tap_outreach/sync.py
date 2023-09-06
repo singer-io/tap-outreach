@@ -161,7 +161,7 @@ STREAM_CONFIGS = {
     },
     'sequence_templates': {
         'url_path': 'sequenceTemplates',
-        'replication': 'full',
+        'replication': 'incremental',
         'filter_field': 'updatedAt',
         'fks': ['creatorId', 'sequenceStepId', 'templateId', 'updaterId']
     },
@@ -189,7 +189,8 @@ STREAM_CONFIGS = {
     },
     'teams': {
         'url_path': 'teams',
-        'replication': 'full',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
         'fks': ['creatorId', 'updaterId']
     },
     'users': {
@@ -197,7 +198,6 @@ STREAM_CONFIGS = {
         'replication': 'incremental',
         'filter_field': 'updatedAt',
         'fks': [
-            'calendarId',
             'mailboxId',
             'profileId',
             'roleId',
