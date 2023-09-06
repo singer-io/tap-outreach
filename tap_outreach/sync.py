@@ -281,7 +281,8 @@ def sync_endpoint(client, config, state, start_date, stream, mdata):
                     filter_field)] = '{}..inf'.format(paginate_datetime)
                 query_params['sort'] = filter_field
 
-        LOGGER.info(f"{stream.tap_stream_id} - Syncing data since {last_datetime} - page: {page}, limit: {count}, offset: {offset}")
+        LOGGER.info(f"{stream.tap_stream_id} - Syncing data since {last_datetime} \
+                    - page: {page}, limit: {count}, offset: {offset}")
 
         querystring = '&'.join(['%s=%s' % (key, value)
                                 for (key, value) in query_params.items()])
