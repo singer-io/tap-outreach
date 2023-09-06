@@ -14,6 +14,14 @@ setup(name='tap-outreach',
           'requests==2.23.0',
           'singer-python==5.9.0'
       ],
+      extras_require={
+          'dev': [
+              'pylint==2.6.2',
+              'ipdb',
+              'nose',
+              'requests-mock==1.9.3'
+          ]
+      },
       entry_points='''
           [console_scripts]
           tap-outreach=tap_outreach:main
