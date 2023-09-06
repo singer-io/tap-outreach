@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.9.0
+  * add property - `request_timeout` to set the time limit for the API requests [#30](https://github.com/singer-io/tap-outreach/pull/30)
+
 ## 0.8.0
   * Relationship precedence over attributes for `Prospects` stream [#25](https://github.com/singer-io/tap-outreach/pull/25)
 

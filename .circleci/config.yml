@@ -20,6 +20,23 @@ jobs:
           command: |
             source /usr/local/share/virtualenvs/tap-tester/bin/activate
             stitch-validate-json tap_outreach/schemas/*.json
+      - run:
+          name: 'pylint'
+          command: |
+            source /usr/local/share/virtualenvs/tap-outreach/bin/activate
+            pylint tap_outreach --disable 'missing-module-docstring,missing-function-docstring,missing-class-docstring,line-too-long,invalid-name,too-many-lines,consider-using-f-string,too-many-arguments,too-many-locals,redefined-builtin,too-many-instance-attributes,broad-exception-raised,too-many-nested-blocks,too-many-branches,unspecified-encoding,redefined-outer-name,logging-fstring-interpolation'
+      - run:
+          name: 'Unit Tests'
+          command: |
+            source /usr/local/share/virtualenvs/tap-outreach/bin/activate
+            pip install nose coverage parameterized
+            nosetests --with-coverage --cover-erase --cover-package=tap_outreach --cover-html-dir=htmlcov tests/unittests
+            coverage html
+          when: always
+      - store_test_results:
+          path: test_output/report.xml
+      - store_artifacts:
+          path: htmlcov
       - slack/notify-on-failure:
           only_for_branches: master
 
