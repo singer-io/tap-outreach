@@ -10,7 +10,7 @@ class OutreachAllFieldsTest(AllFieldsTest, OutreachBase):
         return "tt_outreach_all_fields_test"
 
     def streams_to_test(self):
-        streams_to_exclude = {'mailings', 'events'}
+        streams_to_exclude = {'mailings'}
         return self.expected_stream_names().difference(streams_to_exclude)
 
     # Overriding test_all_fields_for_streams_are_replicated() method from AllFieldsTest
@@ -18,54 +18,7 @@ class OutreachAllFieldsTest(AllFieldsTest, OutreachBase):
         # Skipping fields as per the stream for which there is no data available
         MISSING_FIELDS = {
             'sequence_templates': {'negaitveReplyCount'},
-            'tasks': {'taskThemeId'},
-            'mailings': {
-                'followUpTaskScheduledAt',
-                'references',
-                'openCount',
-                'errorReason',
-                'trackOpens',
-                'subject',
-                'templateId',
-                'bodyText',
-                'repliedAt',
-                'notifyThreadCondition',
-                'markedAsSpamAt',
-                'notifyThreadScheduledAt',
-                'overrideSafetySettings',
-                'taskId',
-                'openedAt',
-                'bouncedAt',
-                'id',
-                'notifyThreadStatus',
-                'followUpTaskType',
-                'scheduledAt',
-                'retryAt',
-                'stateChangedAt',
-                'retryInterval',
-                'sequenceStateId',
-                'opportunityId',
-                'state',
-                'createdAt',
-                'messageId',
-                'clickedAt',
-                'userId',
-                'errorBacktrace',
-                'trackLinks',
-                'retryCount',
-                'deliveredAt',
-                'followUpSequenceId',
-                'clickCount',
-                'prospectId',
-                'unsubscribedAt',
-                'mailingType',
-                'sequenceStepId',
-                'updatedAt',
-                'sequenceId',
-                'bodyHtml',
-                'mailboxAddress',
-                'mailboxId',
-            }
+            'tasks': {'taskThemeId'}
         }
         for stream in self.streams_to_test():
             with self.subTest(stream=stream):
