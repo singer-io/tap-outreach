@@ -582,7 +582,6 @@ class OutreachMinimumSelectionTest(MinimumSelectionTest, OutreachBase):
                 'failureCount',
                 'taskPriorityId',
             },
-            "mailings": {'id', 'updatedAt'},
             "prospects": {
                 'emailOptedOut',
                 'custom35',
