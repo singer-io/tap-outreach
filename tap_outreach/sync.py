@@ -214,7 +214,7 @@ def get_bookmark(state, stream_name, default):
 def write_bookmark(state, stream_name, value):
     if 'bookmarks' not in state:
         state['bookmarks'] = {}
-    state['bookmarks'][stream_name] = value
+    state['bookmarks'][stream_name] = {"updatedAt": value}
     singer.write_state(state)
 
 
