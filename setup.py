@@ -3,7 +3,7 @@
 from setuptools import setup
 
 setup(name='tap-outreach',
-      version='0.8.0',
+      version='0.9.0',
       description='Singer.io tap for extracting data from the Outreach.io API',
       author='Stitch',
       url='https://singer.io',
@@ -14,6 +14,14 @@ setup(name='tap-outreach',
           'requests==2.23.0',
           'singer-python==5.9.0'
       ],
+      extras_require={
+          'dev': [
+              'ipdb',
+              'nose',
+              'pylint==2.6.2',
+              'requests-mock==1.9.3'
+          ]
+      },
       entry_points='''
           [console_scripts]
           tap-outreach=tap_outreach:main
