@@ -2,8 +2,8 @@ import os
 import json
 import singer
 from singer import metadata
-from .sync import STREAM_CONFIGS
 from singer.catalog import Catalog, CatalogEntry, Schema
+from .sync import STREAM_CONFIGS
 
 
 def get_abs_path(path):

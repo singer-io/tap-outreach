@@ -255,7 +255,7 @@ def process_records(stream, mdata, max_modified, records, filter_field, fks):
                             if fk_field_name in record_flat:
                                 raise Exception('`{}` exists as both an attribute and generated relationship name'.format(fk_field_name))
 
-                        if data_value == None:
+                        if data_value is None:
                             record_flat[fk_field_name] = None
                         else:
                             record_flat[fk_field_name] = data_value['id']
@@ -272,7 +272,7 @@ def process_records(stream, mdata, max_modified, records, filter_field, fks):
         return max_modified
 
 
-def sync_endpoint(client, config, catalog, state, start_date, stream, mdata):
+def sync_endpoint(client, config, state, start_date, stream, mdata):
     stream_name = stream.tap_stream_id
     last_datetime = get_bookmark(state, stream_name, start_date)
 
@@ -304,12 +304,8 @@ def sync_endpoint(client, config, catalog, state, start_date, stream, mdata):
                     filter_field)] = '{}..inf'.format(paginate_datetime)
                 query_params['sort'] = filter_field
 
-        LOGGER.info('{} - Syncing data since {} - page: {}, limit: {}, offset: {}'.format(
-            stream.tap_stream_id,
-            last_datetime,
-            page,
-            count,
-            offset))
+        LOGGER.info(f"{stream.tap_stream_id} - Syncing data since {last_datetime} \
+                    - page: {page}, limit: {count}, offset: {offset}")
 
         querystring = '&'.join(['%s=%s' % (key, value)
                                 for (key, value) in query_params.items()])
@@ -357,7 +353,7 @@ def sync(client, config, catalog, state, start_date):
     for stream in selected_streams:
         mdata = metadata.to_map(stream.metadata)
         update_current_stream(state, stream.tap_stream_id)
-        sync_endpoint(client, config, catalog, state,
+        sync_endpoint(client, config, state,
                       start_date, stream, mdata)
 
     update_current_stream(state)

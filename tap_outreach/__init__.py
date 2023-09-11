@@ -10,7 +10,7 @@ from singer.catalog import write_catalog
 
 from tap_outreach.client import OutreachClient
 from tap_outreach.discover import discover
-from tap_outreach.sync import sync
+from tap_outreach.sync import sync as _sync
 
 LOGGER = singer.get_logger()
 
@@ -29,8 +29,8 @@ def check_auth(client):
         client.get(
             path='stages',
             endpoint='stages')
-    except:
-        raise Exception('Error testing Outreach authentication')
+    except Exception as ex:
+        raise Exception('Error testing Outreach authentication') from ex
 
 
 @singer.utils.handle_top_exception(LOGGER)
@@ -43,7 +43,7 @@ def main():
     else:
         with OutreachClient(parsed_args.config) as client:
             check_auth(client)
-            sync(client,
+            _sync(client,
                 parsed_args.config,
                 catalog,
                 parsed_args.state,
