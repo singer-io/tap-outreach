@@ -3,7 +3,7 @@ from base import OutreachBase
 
 
 class OutreachAllFieldsTest(AllFieldsTest, OutreachBase):
-    """Test that with no fields selected for a stream automatic fields are still replicated"""
+    """Standard All Fields Test"""
 
     @staticmethod
     def name():
