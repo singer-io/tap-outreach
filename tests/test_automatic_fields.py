@@ -119,6 +119,7 @@ class OutreachMinimumSelectionTest(MinimumSelectionTest, OutreachBase):
                 'taskPriorityId',
             },
             "sequence_templates": {
+                'updatedAt',
                 'neutralReplyCount',
                 'updaterId',
                 'replyCount',
