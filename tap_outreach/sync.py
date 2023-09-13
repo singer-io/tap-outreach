@@ -208,13 +208,13 @@ STREAM_CONFIGS = {
 
 
 def get_bookmark(state, stream_name, default):
-    return state.get('bookmarks', {}).get(stream_name, default)
+    return state.get('bookmarks', {}).get(stream_name, {}).get(STREAM_CONFIGS[stream_name].get('filter_field'), default)
 
 
 def write_bookmark(state, stream_name, value):
     if 'bookmarks' not in state:
         state['bookmarks'] = {}
-    state['bookmarks'][stream_name] = {"updatedAt": value}
+    state['bookmarks'][stream_name] = {STREAM_CONFIGS[stream_name]['filter_field']: value}
     singer.write_state(state)
 
 
