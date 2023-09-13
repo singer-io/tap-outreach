@@ -132,8 +132,7 @@ class OutreachBase(BaseCase):
             },
             'sequence_templates': {
                 self.PRIMARY_KEYS: {"id"},
-                self.REPLICATION_KEYS: {'updatedAt'},
-                self.REPLICATION_METHOD: self.INCREMENTAL,
+                self.REPLICATION_METHOD: self.FULL_TABLE,
             },
             'tasks': {
                 self.PRIMARY_KEYS: {"id"},
