@@ -36,7 +36,7 @@ class SyncEndpoint(unittest.TestCase):
         mock_state = {
             "currently_syncing": None,
             "bookmarks": {
-                "accounts": "2023-07-07T05:30:59.000Z",
+                "accounts": {"updatedAt":"2023-07-07T05:30:59.000Z"},
             },
         }
 
