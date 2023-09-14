@@ -15,8 +15,8 @@ def get_schemas():
     schemas_metadata = {}
     schemas_path = get_abs_path('schemas')
 
-    file_names = [f for f in os.listdir(schemas_path)
-                  if os.path.isfile(os.path.join(schemas_path, f))]
+    file_names = sorted([f for f in os.listdir(schemas_path)
+                  if os.path.isfile(os.path.join(schemas_path, f))])
 
     for file_name in file_names:
         stream_name = file_name[:-5]

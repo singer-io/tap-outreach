@@ -121,18 +121,6 @@ STREAM_CONFIGS = {
             'updaterId'
         ]
     },
-    'stages': {
-        'url_path': 'stages',
-        'replication': 'incremental',
-        'filter_field': 'updatedAt',
-        'fks': ['creatorId', 'updaterId']
-    },
-    'sequences': {
-        'url_path': 'sequences',
-        'replication': 'incremental',
-        'filter_field': 'updatedAt',
-        'fks': ['creatorId', 'ownerId', 'rulesetId', 'updaterId']
-    },
     'sequence_states': {
         'url_path': 'sequenceStates',
         'replication': 'incremental',
@@ -163,6 +151,18 @@ STREAM_CONFIGS = {
         'url_path': 'sequenceTemplates',
         'replication': 'full',
         'fks': ['creatorId', 'sequenceStepId', 'templateId', 'updaterId']
+    },
+    'sequences': {
+        'url_path': 'sequences',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
+        'fks': ['creatorId', 'ownerId', 'rulesetId', 'updaterId']
+    },
+    'stages': {
+        'url_path': 'stages',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
+        'fks': ['creatorId', 'updaterId']
     },
     'tasks': {
         'url_path': 'tasks',
@@ -348,7 +348,6 @@ def update_current_stream(state, stream_name=None):
 
 def sync(client, config, catalog, state, start_date):
     selected_streams = catalog.get_selected_streams(state)
-    selected_streams = sorted(selected_streams, key=lambda x: x.tap_stream_id)
 
     for stream in selected_streams:
         mdata = metadata.to_map(stream.metadata)
