@@ -4,20 +4,23 @@ import time
 from requests.models import Response
 from tap_outreach import client
 
+
 class Mockresponse(Response):
     def __init__(self, status_code):
         super().__init__()
         self.status_code = status_code
         self.headers = {"x-ratelimit-reset": time.time()}
-    
+
     def raise_for_status(self):
         pass
-    
+
+
 class TestRetryLogic(unittest.TestCase):
     """A set of unit tests to ensure that the retry logic work as expected"""
+
     @patch("tap_outreach.client.requests.Session.request")
     def test_retries_on_5XX(self, mock_session_request):
-        """`OutreachClient.get()` calls a `request` method,to make a request to the API. 
+        """`OutreachClient.get()` calls a `request` method,to make a request to the API.
         We set the mock response status code to `500`.
 
         We expect the tap to retry this request up to 5 times, which is
@@ -32,7 +35,7 @@ class TestRetryLogic(unittest.TestCase):
             "client_secret": "mock_secret",
             "redirect_uri": "mock_uri",
             "refresh_token": "mock_token",
-            "request_timeout": 5
+            "request_timeout": 5,
         }
 
         # Initialize the object and call `get()`
@@ -45,8 +48,8 @@ class TestRetryLogic(unittest.TestCase):
     @patch("tap_outreach.client.OutreachClient.sleep_for_reset_period")
     @patch("tap_outreach.client.requests.Session.request")
     def test_retries_on_429(self, mock_session_request, mock_period):
-        """`OutreachClient.get()` calls a `request` method,to make a request to the API. 
-        We set the mock response status code to `429`. Checks the execution on reaching 
+        """`OutreachClient.get()` calls a `request` method,to make a request to the API.
+        We set the mock response status code to `429`. Checks the execution on reaching
         rate limit.
 
         We expect the tap to retry this request up to 5 times, which is
@@ -61,7 +64,7 @@ class TestRetryLogic(unittest.TestCase):
             "client_secret": "mock_secret",
             "redirect_uri": "mock_uri",
             "refresh_token": "mock_token",
-            "request_timeout": 5
+            "request_timeout": 5,
         }
 
         # Initialize the object and call `get()`
@@ -74,8 +77,8 @@ class TestRetryLogic(unittest.TestCase):
     @patch("tap_outreach.client.OutreachClient.sleep_for_reset_period")
     @patch("tap_outreach.client.requests.Session.request")
     def test_retries_on_404(self, mock_session_request, mock_period):
-        """`OutreachClient.get()` calls a `request` method,to make a request to the API. 
-        We set the mock response status code to `404`. Checks the execution on reaching 
+        """`OutreachClient.get()` calls a `request` method,to make a request to the API.
+        We set the mock response status code to `404`. Checks the execution on reaching
         rate limit.
 
         We expect the tap to retry this request up to 1 times, which is
@@ -90,7 +93,7 @@ class TestRetryLogic(unittest.TestCase):
             "client_secret": "mock_secret",
             "redirect_uri": "mock_uri",
             "refresh_token": "mock_token",
-            "request_timeout": 5
+            "request_timeout": 5,
         }
 
         # Initialize the object and call `get()`
