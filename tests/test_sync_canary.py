@@ -10,5 +10,5 @@ class OutreachSyncCanaryTest(SyncCanaryTest, OutreachBase):
         return "tt_outreach_sync_canary_test"
 
     def streams_to_test(self):
-        streams_to_exclude = {'mailings'}
+        streams_to_exclude = {"mailings"}
         return self.expected_stream_names().difference(streams_to_exclude)
