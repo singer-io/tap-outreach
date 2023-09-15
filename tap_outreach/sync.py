@@ -342,6 +342,7 @@ def sync_endpoint(client, config, state, start_date, stream, mdata):
 
 
 def update_current_stream(state, stream_name=None):
+    LOGGER.info("Setting the stream as currently syncing")
     set_currently_syncing(state, stream_name)
     singer.write_state(state)
 
