@@ -5,7 +5,7 @@ from base import OutreachBase
 class OutreachAllFieldsTest(BookmarkTest, OutreachBase):
     """Standard Bookmark Test"""
 
-    bookmark_format = "%Y-%m-%dT%H:%M:%S.%f+00:00"
+    bookmark_format = "%Y-%m-%dT%H:%M:%S.Z"
     initial_bookmarks = {
         "bookmarks": {
             "accounts": {"updatedAt": "2016-07-07T14:22:04.624Z"},

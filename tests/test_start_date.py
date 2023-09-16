@@ -5,6 +5,8 @@ from base import OutreachBase
 class OutreachAllFieldsTest(BookmarkTest, OutreachBase):
     """Standard Start date Test"""
 
+    bookmark_format = "%Y-%m-%dT%H:%M:%S.Z"
+
     @staticmethod
     def name():
         return "tt_outreach_start_date_test"
