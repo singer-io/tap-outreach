@@ -2,7 +2,7 @@ from tap_tester.base_suite_tests.bookmark_test import BookmarkTest
 from base import OutreachBase
 
 
-class OutreachAllFieldsTest(BookmarkTest, OutreachBase):
+class OutreachStartdateTest(BookmarkTest, OutreachBase):
     """Standard Start date Test"""
 
     bookmark_format = "%Y-%m-%dT%H:%M:%S.Z"
