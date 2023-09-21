@@ -29,6 +29,10 @@ class OutreachBookmarkTest(BookmarkTest, OutreachBase):
         }
     }
 
+    @property
+    def start_date(self):
+        return "2015-03-25T00:00:00Z"
+
     @staticmethod
     def name():
         return "tt_outreach_bookmark_test"

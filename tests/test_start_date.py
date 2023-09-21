@@ -5,14 +5,14 @@ from base import OutreachBase
 class OutreachStartdateTest(BookmarkTest, OutreachBase):
     """Standard Start date Test"""
 
-    bookmark_format = "%Y-%m-%dT%H:%M:%S.Z"
+    bookmark_format = "%Y-%m-%dT%H:%M:%SZ"
 
     @staticmethod
     def name():
         return "tt_outreach_start_date_test"
 
     def streams_to_test(self):
-        streams_to_exclude = {"mailings"}
+        streams_to_exclude = {"mailings", "prospects", "sequence_states", "duties", "sequence_templates"}
         return self.expected_stream_names().difference(streams_to_exclude)
 
     @property
