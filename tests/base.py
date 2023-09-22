@@ -14,6 +14,7 @@ class OutreachBase(BaseCase):
     Shared tap-specific methods (as needed).
     """
     PAGE_SIZE = 100000
+    start_date = "2019-01-01T00:00:00Z"
 
     @staticmethod
     def tap_name():
@@ -29,7 +30,7 @@ class OutreachBase(BaseCase):
         """Configuration properties required for the tap."""
 
         return_value = {
-            "start_date": "2019-01-01T00:00:00Z",
+            "start_date": self.start_date,
             "redirect_uri": "https://app.stitchdata.test:8080/v2/integrations/platform.outreach/callback",
             "client_id": os.getenv("TAP_OUTREACH_CLIENT_ID"),
             "client_secret": os.getenv("TAP_OUTREACH_CLIENT_SECRET"),
