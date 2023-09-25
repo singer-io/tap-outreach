@@ -73,7 +73,7 @@ class OutreachBookmarkTest(BookmarkTest, OutreachBase):
                 #                        "to test a stream")
                 try:
                     # Tap expects date format "%Y-%m-%dT%H:%M:%S.000Z" which is not handled by
-                    # base test suite so handling it in the test class explicitl
+                    # base test suite so handling it in the test class explicitly
                     new_bookmarks[self.get_stream_id(stream)] = {
                         replication_key:
                         self.timedelta_formatted(self.parse_date(replication_values[-2]),

@@ -1,8 +1,5 @@
 import os
-from datetime import datetime as dt
-from datetime import timedelta
 
-from tap_tester import connections, menagerie, runner, LOGGER
 from tap_tester.base_suite_tests.base_case import BaseCase
 
 
