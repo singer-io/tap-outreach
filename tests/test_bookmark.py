@@ -1,6 +1,9 @@
 from tap_tester.base_suite_tests.bookmark_test import BookmarkTest
 from base import OutreachBase
 
+# from debugpy import listen, wait_for_client
+# listen(8000)
+# wait_for_client()
 
 class OutreachBookmarkTest(BookmarkTest, OutreachBase):
     """Standard Bookmark Test"""
@@ -47,37 +50,6 @@ class OutreachBookmarkTest(BookmarkTest, OutreachBase):
         Calculates new bookmarks by looking through sync 1 data to determine a bookmark
         that will sync 2 records in sync 2 (plus any necessary look back data)
         """
-        new_bookmarks = {}
-        for stream, records in self.synced_records_1.items():
-            replication_method = self.expected_replication_method(stream)
-            if replication_method == self.INCREMENTAL:
-                look_back = self.expected_lookback_window(stream)
-                replication_key = self.expected_replication_keys(stream)
-                assert len(replication_key) == 1
-                replication_key = next(iter(replication_key))
-
-                # get the replication values that are prior to the lookback window
-                replication_values = sorted({
-                    message['data'][replication_key] for message in records['messages']
-                    if message['action'] == 'upsert'
-                    and self.parse_date(message['data'][replication_key]) <
-                    self.parse_date(self.get_bookmark_value(
-                        self.state_1, self.get_stream_id(stream))) - look_back})
-                print(
-                    f"unique replication values for stream {stream} are: {replication_values}")
-
-                # There should be 3 or more records (prior to the look back window)
-                # so we can set the bookmark to get the last 2 records (+ the look back)
-                # self.assertGreater(len(replication_values), 2,
-                #                    msg="We need to have more than two replication dates "
-                #                        "to test a stream")
-                try:
-                    # Tap expects date format "%Y-%m-%dT%H:%M:%S.000Z" which is not handled by
-                    # base test suite so handling it in the test class explicitly
-                    new_bookmarks[self.get_stream_id(stream)] = {
-                        replication_key:
-                        self.timedelta_formatted(self.parse_date(replication_values[-2]),
-                                                 date_format=self.bookmark_format).replace(".000000Z", ".000Z")}
-                except IndexError as e:
-                    raise Exception(f"{stream}: {replication_values}") from e
-        return new_bookmarks
+        new_bookmarks = super().calculate_new_bookmarks()
+        return {key: {k: v.replace(".000000Z", ".000Z") for k, v in value.items()}
+                for key, value in new_bookmarks.items()}
