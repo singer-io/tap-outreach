@@ -32,6 +32,12 @@
         "string"
       ]
     },
+    "emailHash":  {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
     "emailProvider":  {
       "type": [
         "null",
@@ -190,12 +196,6 @@
         "string"
       ]
     },
-    "smtpHost":  {
-      "type": [
-        "null",
-        "string"
-      ]
-    },
     "smtpPort":  {
       "type": [
         "null",
@@ -282,18 +282,6 @@
       "type": [
         "null",
         "string"
-      ]
-    },
-    "validateSend":  {
-      "type": [
-        "null",
-        "boolean"
-      ]
-    },
-    "validateSync":  {
-      "type": [
-        "null",
-        "boolean"
       ]
     },
     "creatorId": {

@@ -34,7 +34,10 @@ class TestProcessRecord(unittest.TestCase):
                 "mock_filter_field",
                 "mock_fks",
             )
-        self.assertEqual(e.exception.args[0], 'Error flattening Outeach record - conflict with `id` key')
+        self.assertEqual(
+            e.exception.args[0],
+            "Error flattening Outeach record - conflict with `id` key",
+        )
 
     def test_conflict_data_links(self):
         """call `process_records` function and by passing the `mock_id_records` in
@@ -42,7 +45,9 @@ class TestProcessRecord(unittest.TestCase):
         We expect the exception to be raised -
         `Only `data` or `links` expected in relationships`
         """
-        mock_records = [{"id": 1, "attributes": {}, "relationships": {"prop": {"value": ""}}}]
+        mock_records = [
+            {"id": 1, "attributes": {}, "relationships": {"prop": {"value": ""}}}
+        ]
         mock_stream = MockStream()
         with self.assertRaises(Exception) as e:
             process_records(
@@ -53,7 +58,9 @@ class TestProcessRecord(unittest.TestCase):
                 "mock_filter_field",
                 "mock_fks",
             )
-        self.assertEqual(e.exception.args[0], 'Only `data` or `links` expected in relationships')
+        self.assertEqual(
+            e.exception.args[0], "Only `data` or `links` expected in relationships"
+        )
 
     def test_conflict_data_id(self):
         """call `process_records` function and by passing the `mock_id_records` in
@@ -61,7 +68,13 @@ class TestProcessRecord(unittest.TestCase):
         We expect the exception to be raised -
         `null or `id` field expected for `data` relationship`
         """
-        mock_records = [{"id": 1, "attributes": {}, "relationships": {"prop": {"data": "data_value"}}}]
+        mock_records = [
+            {
+                "id": 1,
+                "attributes": {},
+                "relationships": {"prop": {"data": "data_value"}},
+            }
+        ]
         mock_stream = MockStream()
         mock_fks = ["propId"]
         with self.assertRaises(Exception) as e:
@@ -71,9 +84,11 @@ class TestProcessRecord(unittest.TestCase):
                 "mock_max_modified",
                 mock_records,
                 "mock_filter_field",
-                mock_fks
+                mock_fks,
             )
-        self.assertEqual(e.exception.args[0], 'null or `id` field expected for `data` relationship')
+        self.assertEqual(
+            e.exception.args[0], "null or `id` field expected for `data` relationship"
+        )
 
     def test_conflict_prospects_attributes(self):
         """call `process_records` function and by passing the `mock_id_records` in
@@ -81,7 +96,13 @@ class TestProcessRecord(unittest.TestCase):
         We expect the exception to be raised -
         ``propId` exists as both an attribute and generated relationship name`
         """
-        mock_records = [{"id": 1, "attributes": {"propId": 456}, "relationships": {"prop": {"data": {"id": 123}}}}]
+        mock_records = [
+            {
+                "id": 1,
+                "attributes": {"propId": 456},
+                "relationships": {"prop": {"data": {"id": 123}}},
+            }
+        ]
         mock_stream = MockStream()
         mock_fks = ["propId"]
         with self.assertRaises(Exception) as e:
@@ -91,6 +112,9 @@ class TestProcessRecord(unittest.TestCase):
                 "mock_max_modified",
                 mock_records,
                 "mock_filter_field",
-                mock_fks
+                mock_fks,
             )
-        self.assertEqual(e.exception.args[0], '`propId` exists as both an attribute and generated relationship name')
+        self.assertEqual(
+            e.exception.args[0],
+            "`propId` exists as both an attribute and generated relationship name",
+        )

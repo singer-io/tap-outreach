@@ -31,7 +31,7 @@
           "null",
           "string"
         ],
-        "format": "date"
+        "format": "date-time"
       },
       "deliverCount": {
         "type": [
@@ -130,6 +130,12 @@
         ],
         "format": "date-time"
       },
+      "callPurposeId": {
+        "type": [
+          "null",
+          "integer"
+        ]
+      },
       "creatorId": {
         "type": [
           "null",
@@ -137,6 +143,12 @@
         ]
       },
       "sequenceId": {
+        "type": [
+          "null",
+          "integer"
+        ]
+      },
+      "taskPriorityId": {
         "type": [
           "null",
           "integer"
