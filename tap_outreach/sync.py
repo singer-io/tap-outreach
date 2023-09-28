@@ -35,6 +35,7 @@ STREAM_CONFIGS = {
             'callDispositionId',
             'callPurposeId',
             'opportunityId',
+            'phoneNumberId',
             'prospectId',
             'sequenceId',
             'sequenceStateId',
@@ -57,7 +58,15 @@ STREAM_CONFIGS = {
         'url_path': 'events',
         'replication': 'incremental',
         'filter_field': 'eventAt',
-        'fks': ['prospectId', 'userId']
+        'fks': [
+            'accountId',
+            'callId',
+            'mailingId',
+            'opportunityId',
+            'prospectId',
+            'taskId',
+            'userId'
+        ]
     },
     'mailboxes': {
         'url_path': 'mailboxes',
@@ -70,7 +79,7 @@ STREAM_CONFIGS = {
         'replication': 'incremental',
         'filter_field': 'updatedAt',
         'fks': [
-            'calendarId',
+            'followUpSequenceId',
             'mailboxId',
             'opportunityId',
             'prospectId',
@@ -89,7 +98,9 @@ STREAM_CONFIGS = {
             'accountId',
             'creatorId',
             'opportunityStageId',
-            'ownerId'
+            'ownerId',
+            'stageId',
+            'updaterId'
         ]
     },
     'personas': {
@@ -104,40 +115,52 @@ STREAM_CONFIGS = {
         'fks': [
             'accountId',
             'creatorId',
-            'defaultPluginMappingId',
             'ownerId',
             'personaId',
             'stageId',
             'updaterId'
         ]
     },
-    'stages': {
-        'url_path': 'stages',
-        'replication': 'incremental',
-        'filter_field': 'updatedAt',
-        'fks': ['creatorId', 'updaterId']
-    },
-    'sequences': {
-        'url_path': 'sequences',
-        'replication': 'incremental',
-        'filter_field': 'updatedAt',
-        'fks': ['creatorId', 'ownerid', 'updaterId']
-    },
     'sequence_states': {
         'url_path': 'sequenceStates',
         'replication': 'incremental',
         'filter_field': 'updatedAt',
-        'fks': ['accountid', 'creatorId', 'prospectId', 'sequenceId']
+        'fks': [
+            'accountId',
+            'creatorId',
+            'mailboxId',
+            'opportunityId',
+            'prospectId',
+            'sequenceId',
+            'sequenceStepId'
+        ]
     },
     'sequence_steps': {
         'url_path': 'sequenceSteps',
         'replication': 'incremental',
         'filter_field': 'updatedAt',
-        'fks': ['creatorId', 'sequenceId', 'updaterId']
+        'fks': [
+            'callPurposeId',
+            'creatorId',
+            'sequenceId',
+            'taskPriorityId',
+            'updaterId'
+        ]
     },
     'sequence_templates': {
         'url_path': 'sequenceTemplates',
         'replication': 'full',
+        'fks': ['creatorId', 'sequenceStepId', 'templateId', 'updaterId']
+    },
+    'sequences': {
+        'url_path': 'sequences',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
+        'fks': ['creatorId', 'ownerId', 'rulesetId', 'updaterId']
+    },
+    'stages': {
+        'url_path': 'stages',
+        'replication': 'incremental',
         'filter_field': 'updatedAt',
         'fks': ['creatorId', 'updaterId']
     },
@@ -157,15 +180,16 @@ STREAM_CONFIGS = {
             'sequenceId',
             'sequenceStateId',
             'sequenceStepId',
+            'sequenceTemplateId',
             'subjectId',
             'taskPriorityId',
-            'taskThemeId',
             'templateId'
         ]
     },
     'teams': {
         'url_path': 'teams',
-        'replication': 'full',
+        'replication': 'incremental',
+        'filter_field': 'updatedAt',
         'fks': ['creatorId', 'updaterId']
     },
     'users': {
@@ -173,7 +197,6 @@ STREAM_CONFIGS = {
         'replication': 'incremental',
         'filter_field': 'updatedAt',
         'fks': [
-            'calendarId',
             'mailboxId',
             'profileId',
             'roleId',
@@ -185,13 +208,13 @@ STREAM_CONFIGS = {
 
 
 def get_bookmark(state, stream_name, default):
-    return state.get('bookmarks', {}).get(stream_name, default)
+    return state.get('bookmarks', {}).get(stream_name, {}).get(STREAM_CONFIGS[stream_name].get('filter_field'), default)
 
 
 def write_bookmark(state, stream_name, value):
     if 'bookmarks' not in state:
         state['bookmarks'] = {}
-    state['bookmarks'][stream_name] = value
+    state['bookmarks'][stream_name] = {STREAM_CONFIGS[stream_name]['filter_field']: value}
     singer.write_state(state)
 
 
@@ -228,7 +251,7 @@ def process_records(stream, mdata, max_modified, records, filter_field, fks):
                                 'null or `id` field expected for `data` relationship')
 
                         # potential fix for the issue - https://github.com/singer-io/tap-outreach/issues/20
-                        if stream.tap_stream_id != "prospects":
+                        if stream.tap_stream_id not in ["prospects", "events"]:
                             if fk_field_name in record_flat:
                                 raise Exception('`{}` exists as both an attribute and generated relationship name'.format(fk_field_name))
 
@@ -319,13 +342,13 @@ def sync_endpoint(client, config, state, start_date, stream, mdata):
 
 
 def update_current_stream(state, stream_name=None):
+    LOGGER.info("Setting the stream as currently syncing")
     set_currently_syncing(state, stream_name)
     singer.write_state(state)
 
 
 def sync(client, config, catalog, state, start_date):
     selected_streams = catalog.get_selected_streams(state)
-    selected_streams = sorted(selected_streams, key=lambda x: x.tap_stream_id)
 
     for stream in selected_streams:
         mdata = metadata.to_map(stream.metadata)

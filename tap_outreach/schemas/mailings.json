@@ -46,13 +46,6 @@
       ],
       "format": "date-time"
     },
-    "updatedAt": {
-      "type": [
-        "null",
-        "string"
-      ],
-      "format": "date-time"
-    },
     "deliveredAt": {
       "type": [
         "null",
@@ -151,8 +144,14 @@
     "references": {
       "type": [
         "null",
-        "string"
-      ]
+        "array"
+      ],
+      "items": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
     },
     "repliedAt": {
       "type": [
@@ -232,7 +231,7 @@
       ],
       "format": "date-time"
     },
-    "calendarId": {
+    "followUpSequenceId": {
       "type": [
         "null",
         "integer"
@@ -281,6 +280,12 @@
       ]
     },
     "templateId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "userId": {
       "type": [
         "null",
         "integer"

@@ -59,6 +59,12 @@
         "string"
       ]
     },
+    "opportunityAssociation": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
     "scheduledAt": {
       "type": [
         "null",
@@ -153,6 +159,12 @@
       ]
     },
     "sequenceStepId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "sequenceTemplateId": {
       "type": [
         "null",
         "integer"

@@ -10,22 +10,22 @@
     "allowSequences": {
       "type": [
         "null",
-        "string"
+        "boolean"
       ]
     },
     "allowSnippets": {
       "type": [
         "null",
-        "string"
+        "boolean"
       ]
     },
     "allowTemplates": {
       "type": [
         "null",
-        "string"
+        "boolean"
       ]
     },
-    "name": {
+    "color": {
       "type": [
         "null",
         "string"
@@ -37,6 +37,12 @@
         "string"
       ],
       "format": "date-time"
+    },
+    "name": {
+      "type": [
+        "null",
+        "string"
+      ]
     },
     "updatedAt": {
       "type": [
