@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.0
+  * schema changes and integration test suite [#28](https://github.com/singer-io/tap-outreach/pull/28)
+
 ## 0.9.0
   * add property - `request_timeout` to set the time limit for the API requests [#30](https://github.com/singer-io/tap-outreach/pull/30)
 
