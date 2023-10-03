@@ -251,7 +251,7 @@ def process_records(stream, mdata, max_modified, records, filter_field, fks):
                                 'null or `id` field expected for `data` relationship')
 
                         # potential fix for the issue - https://github.com/singer-io/tap-outreach/issues/20
-                        if stream.tap_stream_id not in ["prospects", "events"]:
+                        if stream.tap_stream_id not in ["prospects", "events", "mailings"]:
                             if fk_field_name in record_flat:
                                 raise Exception('`{}` exists as both an attribute and generated relationship name'.format(fk_field_name))
 
