@@ -23,7 +23,8 @@ class OutreachAllFieldsTest(AllFieldsTest, OutreachBase):
             "completerId",
             "sequenceStepId",
             "opportunityId",
-            "mailingId"
+            "mailingId",
+            "taskThemeId"
         },
         "calls": {
             "prospectId",
