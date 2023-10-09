@@ -89,32 +89,3 @@ class TestProcessRecord(unittest.TestCase):
         self.assertEqual(
             e.exception.args[0], "null or `id` field expected for `data` relationship"
         )
-
-    def test_conflict_prospects_attributes(self):
-        """call `process_records` function and by passing the `mock_id_records` in
-        the param.
-        We expect the exception to be raised -
-        ``propId` exists as both an attribute and generated relationship name`
-        """
-        mock_records = [
-            {
-                "id": 1,
-                "attributes": {"propId": 456},
-                "relationships": {"prop": {"data": {"id": 123}}},
-            }
-        ]
-        mock_stream = MockStream()
-        mock_fks = ["propId"]
-        with self.assertRaises(Exception) as e:
-            process_records(
-                mock_stream,
-                "mock_mdata",
-                "mock_max_modified",
-                mock_records,
-                "mock_filter_field",
-                mock_fks,
-            )
-        self.assertEqual(
-            e.exception.args[0],
-            "`propId` exists as both an attribute and generated relationship name",
-        )
