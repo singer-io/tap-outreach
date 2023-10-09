@@ -250,9 +250,7 @@ def process_records(stream, mdata, max_modified, records, filter_field, fks):
                             raise Exception(
                                 'null or `id` field expected for `data` relationship')
 
-                        if data_value is None:
-                            record_flat[fk_field_name] = None
-                        else:
+                        if data_value is not None:
                             record_flat[fk_field_name] = data_value['id']
 
             if filter_field in record_flat and record_flat[filter_field] > max_modified:
