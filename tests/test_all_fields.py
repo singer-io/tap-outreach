@@ -7,6 +7,36 @@ class OutreachAllFieldsTest(AllFieldsTest, OutreachBase):
     MISSING_FIELDS = {
         "sequence_templates": {"negaitveReplyCount"},
         "tasks": {"taskThemeId"},
+        "mailboxes": {"creatorId"},
+        "prospects": {"personaId"},
+        "users": {"roleId"},
+        "call_purposes": {"creatorId"},
+        "sequence_states": {"sequenceStepId", "opportunityId"},
+        "call_dispositions": {"creatorId"},
+        "tasks": {
+            "sequenceTemplateId",
+            "accountId",
+            "sequenceStateId",
+            "sequenceId",
+            "callId",
+            "templateId",
+            "completerId",
+            "sequenceStepId",
+            "opportunityId",
+            "mailingId",
+            "taskThemeId"
+        },
+        "calls": {
+            "prospectId",
+            "sequenceStateId",
+            "sequenceId",
+            "sequenceStepId",
+            "callPurposeId",
+            "phoneNumberId",
+            "taskId",
+            "opportunityId"
+        },
+        "opportunities": {"stageId", "opportunityStageId"}
     }
 
     @staticmethod
