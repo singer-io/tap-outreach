@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.0
+  * Fix for attribute & generated relationship name [#32](https://github.com/singer-io/tap-outreach/pull/32)
+
 ## 1.0.0
   * Add schema changes and integration test suite [#28](https://github.com/singer-io/tap-outreach/pull/28)
 
