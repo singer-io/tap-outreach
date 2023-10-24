@@ -73,7 +73,8 @@ This tap:
         "redirect_uri": <REDIRECT_URI>,
         "refresh_token": <REFRESH_TOKEN>,
         "quota_limit": <QUOTA_LIMIT>,
-        "page_size": <PAGE_SIZE>
+        "page_size": <PAGE_SIZE>,
+        "request_timeout": 300
     }
     ```
     The following are required values: `start_date`, `client_id`, `client_secret`, `redirect_uri`, `refresh_token`

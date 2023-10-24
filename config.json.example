@@ -4,5 +4,6 @@
     "client_secret": "<CLIENT_SECRET>",
     "redirect_uri": "<REDIRECT_URI>",
     "refresh_token": "<REFRESH_TOKEN>",
-    "quota_limit": "<QUOTA_LIMIT>"
+    "quota_limit": "<QUOTA_LIMIT>",
+    "request_timeout": "<TIMEOUT_LIMIT>"
 }

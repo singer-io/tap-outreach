@@ -1,7 +1,15 @@
 # Changelog
 
-## 0.8.1
+## 1.1.1
   * Dependabot update [#26](https://github.com/singer-io/tap-outreach/pull/26)
+## 1.1.0
+  * Fix for attribute & generated relationship name [#32](https://github.com/singer-io/tap-outreach/pull/32)
+
+## 1.0.0
+  * Add schema changes and integration test suite [#28](https://github.com/singer-io/tap-outreach/pull/28)
+
+## 0.9.0
+  * add property - `request_timeout` to set the time limit for the API requests [#30](https://github.com/singer-io/tap-outreach/pull/30)
 
 ## 0.8.0
   * Relationship precedence over attributes for `Prospects` stream [#25](https://github.com/singer-io/tap-outreach/pull/25)

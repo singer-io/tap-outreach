@@ -7,6 +7,12 @@
         "integer"
       ]
     },
+    "accountsViewId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
     "activityNotificationsDisabled": {
       "type": [
         "null",
@@ -29,6 +35,12 @@
       "type": [
         "null",
         "string"
+      ]
+    },
+    "callsViewId": {
+      "type": [
+        "null",
+        "integer"
       ]
     },
     "controlledTabDefault": {
@@ -131,6 +143,12 @@
         "boolean"
       ]
     },
+    "engagementEmailsEnabled": {
+      "type": [
+        "null",
+        "boolean"
+      ]
+    },
     "firstName": {
       "type": [
         "null",
@@ -155,6 +173,12 @@
         "string"
       ]
     },
+    "inboundPhoneType": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
     "inboundVoicemailCustomMessageText": {
       "type": [
         "null",
@@ -165,6 +189,24 @@
       "type": [
         "null",
         "string"
+      ]
+    },
+    "inboundVoicemailPromptType": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "kaiaRecordingsViewId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "keepBridgePhoneConnected": {
+      "type": [
+        "null",
+        "boolean"
       ]
     },
     "lastName": {
@@ -187,6 +229,12 @@
       ]
     },
     "mailboxErrorEmailEnabled": {
+      "type": [
+        "null",
+        "boolean"
+      ]
+    },
+    "meetingEngagementNotificationEnabled": {
       "type": [
         "null",
         "boolean"
@@ -246,12 +294,11 @@
         "boolean"
       ]
     },
-    "onboardedAt": {
+    "opportunitiesViewId": {
       "type": [
         "null",
-        "string"
-      ],
-      "format": "date-time"
+        "integer"
+      ]
     },
     "passwordExpiresAt": {
       "type": [
@@ -278,16 +325,94 @@
         "string"
       ]
     },
+    "pluginAlertNotificationEnabled": {
+      "type": [
+        "null",
+        "boolean"
+      ]
+    },
+    "preferredVoiceRegion": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
     "prefersLocalPresence": {
       "type": [
         "null",
         "boolean"
       ]
     },
+    "primaryTimezone": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "prospectsViewId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "reportsTeamPerfViewId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "reportsViewId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "scimExternalId": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "scimSource": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "secondaryTimezone": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
     "senderNotificationsExcluded": {
       "type": [
         "null",
         "string"
+      ]
+    },
+    "tasksViewId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "teamsViewId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "tertiaryTimezone": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "textingEmailNotifications": {
+      "type": [
+        "null",
+        "boolean"
       ]
     },
     "title": {
@@ -309,22 +434,34 @@
       ],
       "format": "date-time"
     },
+    "userGuid": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
     "username": {
       "type": [
         "null",
         "string"
       ]
     },
-    "weeklyDigestEmailEnabled": {
+    "usersViewId": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    },
+    "voicemailNotificationEnabled": {
       "type": [
         "null",
         "boolean"
       ]
     },
-    "calendarId": {
+    "weeklyDigestEmailEnabled": {
       "type": [
         "null",
-        "integer"
+        "boolean"
       ]
     },
     "creatorId": {

@@ -2,8 +2,8 @@ import os
 import json
 import singer
 from singer import metadata
-from .sync import STREAM_CONFIGS
 from singer.catalog import Catalog, CatalogEntry, Schema
+from .sync import STREAM_CONFIGS
 
 
 def get_abs_path(path):
@@ -15,8 +15,8 @@ def get_schemas():
     schemas_metadata = {}
     schemas_path = get_abs_path('schemas')
 
-    file_names = [f for f in os.listdir(schemas_path)
-                  if os.path.isfile(os.path.join(schemas_path, f))]
+    file_names = sorted([f for f in os.listdir(schemas_path)
+                  if os.path.isfile(os.path.join(schemas_path, f))])
 
     for file_name in file_names:
         stream_name = file_name[:-5]
@@ -28,9 +28,11 @@ def get_schemas():
             singer.resolve_schema_references(schema, refs)
 
         replication = STREAM_CONFIGS[stream_name]['replication']
+        replication_key = STREAM_CONFIGS[stream_name].get('filter_field', None)
         meta = metadata.get_standard_metadata(
             schema=schema,
             key_properties=['id'],
+            valid_replication_keys=[replication_key] if replication_key else [],
             replication_method='FULL_TABLE' if replication == 'full' else replication.upper()
         )
 

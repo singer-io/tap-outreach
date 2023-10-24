@@ -112,6 +112,18 @@
           "integer"
         ]
       },
+      "sequenceStepId": {
+        "type": [
+          "null",
+          "integer"
+        ]
+      },
+      "templateId": {
+        "type": [
+          "null",
+          "integer"
+        ]
+      },
       "updaterId": {
         "type": [
           "null",
