@@ -1,5 +1,7 @@
 # Changelog
 
+## 1.1.1
+  * Dependabot update [#26](https://github.com/singer-io/tap-outreach/pull/26)
 ## 1.1.0
   * Fix for attribute & generated relationship name [#32](https://github.com/singer-io/tap-outreach/pull/32)
 
