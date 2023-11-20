@@ -120,9 +120,12 @@ class OutreachClient():
         response.raise_for_status()
 
         if not skip_quota and self.__quota_limit:
-            # quota_limit > (1 - (X-RateLimit-Remaining / X-RateLimit-Limit))
-            quota_used = 1 - int(response.headers['x-ratelimit-remaining']) / \
-                int(response.headers['x-ratelimit-remaining'])
+            # x-rate-limit-remaining now appears to return two distinct ratelimit values, which are not yet documented
+            # eg '9999, 19988'
+            # based on default hourly-user limits, we believe the first value is the hourly limit remaining
+            ratelimitrem = response.headers['x-ratelimit-remaining'].split(", ")[0]
+            quota_used = 1 - int(ratelimitrem) / \
+                int(ratelimitrem)
             if quota_used > float(self.__quota_limit):
                 LOGGER.warning(
                     'Quota used: {:.2f} / {}'.format(quota_used, self.__quota_limit))
