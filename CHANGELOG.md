@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.2
+  * Add handling for new x-rate-limit-remaining structure [#33](https://github.com/singer-io/tap-outreach/pull/33)
+
 ## 1.1.1
   * Dependabot update [#26](https://github.com/singer-io/tap-outreach/pull/26)
 ## 1.1.0
@@ -27,10 +30,10 @@
   * Change from `offset` to `cursor` [pagination](https://api.outreach.io/api/v2/docs#pagination) in `sync.py`. Add [rate limit](https://api.outreach.io/api/v2/docs#rate-limiting) decorator to `client.py`.
 
 ## 0.3.0
-  * changed readme 
+  * changed readme
 
 ## 0.2.0
-  * Additional Endpoints 
+  * Additional Endpoints
 
 ## 0.1.0
   * First iteration
