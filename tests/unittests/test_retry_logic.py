@@ -18,8 +18,9 @@ class Mockresponse(Response):
 class TestRetryLogic(unittest.TestCase):
     """A set of unit tests to ensure that the retry logic work as expected"""
 
+    @patch("tap_outreach.client.OutreachClient.refresh")
     @patch("tap_outreach.client.requests.Session.request")
-    def test_retries_on_5XX(self, mock_session_request):
+    def test_retries_on_5XX(self, mock_session_request, mock_refresh):
         """`OutreachClient.get()` calls a `request` method,to make a request to the API.
         We set the mock response status code to `500`.
 
