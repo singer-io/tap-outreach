@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.3
+  * Fix refresh logic for long running pagination requests [#35](https://github.com/singer-io/tap-outreach/pull/35)
+
 ## 1.1.2
   * Add handling for new x-rate-limit-remaining structure [#33](https://github.com/singer-io/tap-outreach/pull/33)
 
