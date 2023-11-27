@@ -20,7 +20,7 @@ class TestRetryLogic(unittest.TestCase):
 
     @patch("tap_outreach.client.OutreachClient.refresh")
     @patch("tap_outreach.client.requests.Session.request")
-    def test_retries_on_5XX(self, mock_session_request, mock_refresh):
+    def test_retries_on_5XX(self, mock_session_request, _):
         """`OutreachClient.get()` calls a `request` method,to make a request to the API.
         We set the mock response status code to `500`.
 
@@ -46,9 +46,10 @@ class TestRetryLogic(unittest.TestCase):
         # 5 is the max tries specified in the tap
         self.assertEquals(5, mock_session_request.call_count)
 
+    @patch("tap_outreach.client.OutreachClient.refresh")
     @patch("tap_outreach.client.OutreachClient.sleep_for_reset_period")
     @patch("tap_outreach.client.requests.Session.request")
-    def test_retries_on_429(self, mock_session_request, mock_period):
+    def test_retries_on_429(self, mock_session_request, *args):
         """`OutreachClient.get()` calls a `request` method,to make a request to the API.
         We set the mock response status code to `429`. Checks the execution on reaching
         rate limit.
@@ -75,9 +76,10 @@ class TestRetryLogic(unittest.TestCase):
         # 5 is the max tries specified in the tap
         self.assertEquals(5, mock_session_request.call_count)
 
+    @patch("tap_outreach.client.OutreachClient.refresh")
     @patch("tap_outreach.client.OutreachClient.sleep_for_reset_period")
     @patch("tap_outreach.client.requests.Session.request")
-    def test_retries_on_404(self, mock_session_request, mock_period):
+    def test_retries_on_404(self, mock_session_request, *args):
         """`OutreachClient.get()` calls a `request` method,to make a request to the API.
         We set the mock response status code to `404`. Checks the execution on reaching
         rate limit.
