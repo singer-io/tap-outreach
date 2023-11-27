@@ -47,10 +47,9 @@ class OutreachClient():
         self.__session.close()
 
     def refresh(self):
-        data = self.request(
+        resp = self.__session.request(
             'POST',
             url='https://api.outreach.io/oauth/token',
-            skip_quota=True,
             data={
                 'client_id': self.__client_id,
                 'client_secret': self.__client_secret,
@@ -58,12 +57,14 @@ class OutreachClient():
                 'refresh_token': self.__refresh_token,
                 'grant_type': 'refresh_token'
             })
+        data = resp.json()
 
         self.__access_token = data['access_token']
 
         self.__expires_at = datetime.utcnow() + \
             timedelta(seconds=data['expires_in'] -
                       10)  # pad by 10 seconds for clock drift
+        LOGGER.info(f"Refreshed access token, expires at {self.__expires_at}")
 
     @staticmethod
     def sleep_for_reset_period(response):
@@ -82,10 +83,11 @@ class OutreachClient():
     # Rate Limit: https://api.outreach.io/api/v2/docs#rate-limiting
     @utils.ratelimit(10000, 3600)
     def request(self, method, path=None, url=None, skip_quota=False, **kwargs):
-        if url is None and \
-            (self.__access_token is None or
+        if  (self.__access_token is None or
              self.__expires_at <= datetime.utcnow()):
             self.refresh()
+        else:
+            LOGGER.info("access_token is still valid; not refreshing")
 
         if url is None and path:
             url = '{}{}'.format(self.BASE_URL, path)

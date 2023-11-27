@@ -45,7 +45,9 @@ class TestTimeoutValue(unittest.TestCase):
     Test case to verify the timeout value is set as expected
     """
 
-    json = {"key": "value"}
+    json = {"key": "value",
+            "access_token": "None",
+            "expires_in": 10,}
 
     @parameterized.expand(
         [
