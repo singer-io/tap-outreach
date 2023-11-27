@@ -47,10 +47,9 @@ class OutreachClient():
         self.__session.close()
 
     def refresh(self):
-        data = self.request(
+        resp = self.__session.request(
             'POST',
             url='https://api.outreach.io/oauth/token',
-            skip_quota=True,
             data={
                 'client_id': self.__client_id,
                 'client_secret': self.__client_secret,
@@ -58,6 +57,7 @@ class OutreachClient():
                 'refresh_token': self.__refresh_token,
                 'grant_type': 'refresh_token'
             })
+        data = resp.json()
 
         self.__access_token = data['access_token']
 
@@ -83,8 +83,7 @@ class OutreachClient():
     # Rate Limit: https://api.outreach.io/api/v2/docs#rate-limiting
     @utils.ratelimit(10000, 3600)
     def request(self, method, path=None, url=None, skip_quota=False, **kwargs):
-        if url is None and \
-            (self.__access_token is None or
+        if  (self.__access_token is None or
              self.__expires_at <= datetime.utcnow()):
             self.refresh()
         else:
