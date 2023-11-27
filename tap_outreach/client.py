@@ -64,6 +64,7 @@ class OutreachClient():
         self.__expires_at = datetime.utcnow() + \
             timedelta(seconds=data['expires_in'] -
                       10)  # pad by 10 seconds for clock drift
+        LOGGER.info(f"Refreshed access token, expires at {self.__expires_at}")
 
     @staticmethod
     def sleep_for_reset_period(response):
@@ -86,6 +87,8 @@ class OutreachClient():
             (self.__access_token is None or
              self.__expires_at <= datetime.utcnow()):
             self.refresh()
+        else:
+            LOGGER.info("access_token is still valid; not refreshing")
 
         if url is None and path:
             url = '{}{}'.format(self.BASE_URL, path)
