@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.4
+  * Bump requests from 2.31.0 to 2.32.3 [#36](https://github.com/singer-io/tap-outreach/pull/36)
+
 ## 1.1.3
   * Fix refresh logic for long running pagination requests [#35](https://github.com/singer-io/tap-outreach/pull/35)
 
