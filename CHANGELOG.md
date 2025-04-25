@@ -1,7 +1,7 @@
 # Changelog
 
 ## 1.1.4
-  * Fix for error "CRITICAL Only `data` or `links` expected in relationships" [#37](https://github.com/singer-io/tap-outreach/pull/37)
+  * Fix for error "CRITICAL Only `data` or `links` expected in relationships" [#39](https://github.com/singer-io/tap-outreach/pull/39)
   * Bump requests from 2.31.0 to 2.32.3
 
 ## 1.1.3
