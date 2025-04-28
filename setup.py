@@ -10,9 +10,9 @@ setup(name='tap-outreach',
       classifiers=['Programming Language :: Python :: 3 :: Only'],
       py_modules=['tap_outreach'],
       install_requires=[
-          'backoff==1.8.0',
+          'backoff==2.2.1',
           'requests==2.32.3',
-          'singer-python==5.9.0'
+          'singer-python==6.1.1'
       ],
       extras_require={
           'dev': [
