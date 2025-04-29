@@ -30,9 +30,9 @@ jobs:
           name: 'Unit Tests'
           command: |
             source /usr/local/share/virtualenvs/tap-outreach/bin/activate
-            pip install nose coverage parameterized
-            nosetests --with-coverage --cover-erase --cover-package=tap_outreach --cover-html-dir=htmlcov tests/unittests
-            coverage html
+            pip install nose2 parameterized nose2[coverage_plugin]>=0.6.5
+            pip install parameterized
+            nose2 --with-coverage -v -s tests/unittests/
           when: always
       - run:
           name: 'Integration Tests'
