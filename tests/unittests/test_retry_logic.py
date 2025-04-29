@@ -44,7 +44,7 @@ class TestRetryLogic(unittest.TestCase):
         with self.assertRaises(client.Server5xxError):
             outreach_object.get("mock_url", "mock_path")
         # 5 is the max tries specified in the tap
-        self.assertEquals(5, mock_session_request.call_count)
+        self.assertEqual(5, mock_session_request.call_count)
 
     @patch("tap_outreach.client.OutreachClient.refresh")
     @patch("tap_outreach.client.OutreachClient.sleep_for_reset_period")
@@ -74,7 +74,7 @@ class TestRetryLogic(unittest.TestCase):
         with self.assertRaises(client.RateLimitError):
             outreach_object.get("mock_url", "mock_path")
         # 5 is the max tries specified in the tap
-        self.assertEquals(5, mock_session_request.call_count)
+        self.assertEqual(5, mock_session_request.call_count)
 
     @patch("tap_outreach.client.OutreachClient.refresh")
     @patch("tap_outreach.client.OutreachClient.sleep_for_reset_period")
@@ -104,4 +104,4 @@ class TestRetryLogic(unittest.TestCase):
         with self.assertRaises(Exception):
             outreach_object.get("mock_url", "mock_path")
         # 5 is the max tries specified in the tap
-        self.assertEquals(1, mock_session_request.call_count)
+        self.assertEqual(1, mock_session_request.call_count)
