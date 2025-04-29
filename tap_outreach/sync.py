@@ -238,13 +238,9 @@ def process_records(stream, mdata, max_modified, records, filter_field, fks):
 
             if 'relationships' in record:
                 for prop, value in record['relationships'].items():
-                    if value is None or (not value.get('data') and not value.get('links')):
-                        LOGGER.warning("Skipping invalid relationship: %s", prop)
-                        continue
                     if 'data' not in value and 'links' not in value:
-                        raise Exception(
-                            'Only `data` or `links` expected in relationships')
-
+                            LOGGER.warning("Skipping invalid value: %s only when `data` and `links` not in relationships", prop)
+                            continue
                     fk_field_name = '{}Id'.format(prop)
 
                     if 'data' in value and fk_field_name in fks:
