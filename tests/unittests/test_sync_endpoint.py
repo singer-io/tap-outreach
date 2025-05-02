@@ -16,9 +16,10 @@ class MockClient:
 class SyncEndpoint(unittest.TestCase):
     """A set of unit tests to ensure the `sync_endpoint` functionality flow"""
 
+    @patch("tap_outreach.sync.singer.write_state")
     @patch("tap_outreach.sync.write_schema")
     @patch("tap_outreach.sync.process_records")
-    def test_sync_endpoint(self, mock_process_record, mock_schema):
+    def test_sync_endpoint(self, mock_process_record, mock_schema, mock_write_state):
         """call `sync_endpoint` function and by passing the mock params.
         We expect the `process_records` to be called with below params.
         """

@@ -10,9 +10,7 @@ class OutreachAllFieldsTest(AllFieldsTest, OutreachBase):
         "mailboxes": {"creatorId"},
         "prospects": {"personaId"},
         "users": {"roleId"},
-        "call_purposes": {"creatorId"},
         "sequence_states": {"sequenceStepId", "opportunityId"},
-        "call_dispositions": {"creatorId"},
         "tasks": {
             "sequenceTemplateId",
             "accountId",
