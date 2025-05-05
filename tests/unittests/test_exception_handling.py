@@ -48,6 +48,9 @@ class TestProcessRecord(unittest.TestCase):
         We expect the exception to be raised -
         `Only `data` or `links` expected in relationships`
         """
+        # Return a proper dictionary that process_records can work with
+        mock_transform.return_value = {"id": 1, "attributes": {}, "relationships": {}}
+
         mock_records = [
             {"id": 1, "attributes": {}, "relationships": {"prop": {"value": ""}}}
         ]
