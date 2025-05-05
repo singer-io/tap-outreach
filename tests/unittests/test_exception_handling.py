@@ -52,10 +52,7 @@ class TestProcessRecord(unittest.TestCase):
         with self.assertLogs(level="WARNING") as log_statement:
             process_records(
                 mock_stream,
-                {
-                (): {"selected": True},
-                ("attributes",): {"selected": True}
-            },
+                "mock_mdata",
                 "mock_max_modified",
                 mock_records,
                 "mock_filter_field",
