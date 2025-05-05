@@ -39,6 +39,30 @@ class TestProcessRecord(unittest.TestCase):
             "Error flattening Outeach record - conflict with `id` key",
         )
 
+    def test_conflict_data_links(self):
+        """call `process_records` function and by passing the `mock_id_records` in
+        the param.
+        We expect the exception to be raised -
+        `Only `data` or `links` expected in relationships`
+        """
+        mock_records = [
+            {"id": 1, "attributes": {}, "relationships": {"prop": {"value": ""}}}
+        ]
+        mock_stream = MockStream()
+        with self.assertLogs(level="WARNING") as log_statement:
+            process_records(
+                mock_stream,
+                "mock_mdata",
+                "mock_max_modified",
+                mock_records,
+                "mock_filter_field",
+                "mock_fks",
+            )
+
+        self.assertTrue(
+            any("Skipping invalid value" in message for message in log.output),
+            "Expected warning about invalid relationship not found in logs."
+        )
 
     def test_conflict_data_id(self):
         """call `process_records` function and by passing the `mock_id_records` in
