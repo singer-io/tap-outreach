@@ -60,7 +60,7 @@ class TestProcessRecord(unittest.TestCase):
             )
 
         self.assertTrue(
-            any("Skipping invalid value" in message for message in log.output),
+            any("Skipping invalid value" in message for message in log_statement.output),
             "Expected warning about invalid relationship not found in logs."
         )
 
