@@ -52,17 +52,24 @@ class TestProcessRecord(unittest.TestCase):
         with self.assertLogs(level="WARNING") as log_statement:
             process_records(
                 mock_stream,
-                "mock_mdata",
+                {
+                (): {"selected": True},
+                ("attributes",): {"selected": True}
+            },
                 "mock_max_modified",
                 mock_records,
                 "mock_filter_field",
                 "mock_fks",
             )
 
-        self.assertTrue(
-            any("Skipping invalid value" in message for message in log_statement.output),
-            "Expected warning about invalid relationship not found in logs."
-        )
+        # self.assertTrue(
+        #     any("Skipping invalid value" in message for message in log_statement.output),
+        #     "Expected warning about invalid relationship not found in logs."
+        # )
+        # self.assertEqual(log_statement.output,
+        #                      ['Skipping invalid value: %s only when `data` and `links` not in relationships])
+        expected_warning = "WARNING:your_module.LOGGER:Skipping invalid value: prop only when `data` and `links` not in relationships"
+        self.assertEqual(log_statement.output[0], expected_warning)
 
     def test_conflict_data_id(self):
         """call `process_records` function and by passing the `mock_id_records` in
