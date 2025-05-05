@@ -46,7 +46,7 @@ class TestProcessRecord(unittest.TestCase):
         `Only `data` or `links` expected in relationships`
         """
         mock_records = [
-            {"id": 1, "attributes": {}, "relationships": {"prop": {"value": ""}}}
+            {"id": 1, "attributes": {}, "relationships": {"prop": {}}}
         ]
         mock_stream = MockStream()
         with self.assertLogs(level="WARNING") as log_statement:
