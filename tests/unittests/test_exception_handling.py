@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 from tap_outreach.sync import process_records
 
 
@@ -39,27 +40,34 @@ class TestProcessRecord(unittest.TestCase):
             "Error flattening Outeach record - conflict with `id` key",
         )
 
-    def test_conflict_data_links(self):
+    @patch("tap_outreach.sync.LOGGER.warning")
+    @patch("tap_outreach.sync.Transformer.transform")
+    def test_conflict_data_links(self, mock_transform, mock_warning):
         """call `process_records` function and by passing the `mock_id_records` in
         the param.
         We expect the exception to be raised -
         `Only `data` or `links` expected in relationships`
         """
+        # Return a proper dictionary that process_records can work with
+        mock_transform.return_value = {"id": 1, "attributes": {}, "relationships": {}}
+
         mock_records = [
             {"id": 1, "attributes": {}, "relationships": {"prop": {"value": ""}}}
         ]
         mock_stream = MockStream()
-        with self.assertRaises(Exception) as e:
-            process_records(
-                mock_stream,
-                "mock_mdata",
-                "mock_max_modified",
-                mock_records,
-                "mock_filter_field",
-                "mock_fks",
-            )
-        self.assertEqual(
-            e.exception.args[0], "Only `data` or `links` expected in relationships"
+
+        process_records(
+            mock_stream,
+            "mock_mdata",
+            "mock_max_modified",
+            mock_records,
+            "mock_filter_field",
+            "mock_fks",
+        )
+
+        mock_warning.assert_called_once_with(
+            "Skipping invalid value: %s only when `data` and `links` not in relationships",
+            "prop",
         )
 
     def test_conflict_data_id(self):
