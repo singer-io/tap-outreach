@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.1
+  * Bump dependency versions for twistlock compliance [#40](https://github.com/singer-io/tap-outreach/pull/40)
+
 ## 1.2.0
   * Fix for error "CRITICAL Only `data` or `links` expected in relationships" [#39](https://github.com/singer-io/tap-outreach/pull/39)
   * Bump requests from 2.31.0 to 2.32.3
