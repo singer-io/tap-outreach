@@ -30,7 +30,7 @@ def check_auth(client):
             path='stages',
             endpoint='stages')
     except Exception as ex:
-        raise Exception('Error testing Outreach authentication: {}'.format(ex.response.text)) from ex
+        raise Exception('Error testing Outreach authentication') from ex
 
 
 @singer.utils.handle_top_exception(LOGGER)
