@@ -18,8 +18,8 @@ setup(name='tap-outreach',
           'dev': [
               'ipdb',
               'nose',
-              'pylint==2.6.2',
-              'requests-mock==1.9.3'
+              'pylint',
+              'requests-mock'
           ]
       },
       entry_points='''
