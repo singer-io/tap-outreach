@@ -311,10 +311,10 @@ def sync_endpoint(client, config, state, start_date, stream, mdata):
                 url=next_url,
                 params=query_params,
                 endpoint=stream_name)
-
+        
         records = data.get('data', [])
         next_url = data.get('links', {}).get('next', None)
-
+        LOGGER.info("Next Url %s", next_url)
         if not next_url:
             has_more = False
         else:
