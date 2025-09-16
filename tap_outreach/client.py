@@ -110,6 +110,7 @@ class OutreachClient():
         with metrics.http_request_timer(endpoint) as timer:
             response = self.__session.request(method, url, timeout=self.request_timeout, **kwargs)
             timer.tags[metrics.Tag.http_status_code] = response.status_code
+            LOGGER.info("Final URL %s", response.url)
 
         if response.status_code >= 500:
             raise Server5xxError(response.text)
