@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.2.2
+  * Bump requests to 2.33.0 for security updates [#37](https://github.com/singer-io/tap-outreach/pull/37)
+
+
 ## 1.2.1
   * Bump dependency versions for twistlock compliance [#40](https://github.com/singer-io/tap-outreach/pull/40)
 
