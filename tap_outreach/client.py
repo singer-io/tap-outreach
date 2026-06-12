@@ -13,6 +13,10 @@ class Server5xxError(Exception):
     pass
 
 
+class OutreachForbiddenError(Exception):
+    pass
+
+
 class RateLimitError(Exception):
     pass
 
@@ -113,6 +117,10 @@ class OutreachClient():
 
         if response.status_code >= 500:
             raise Server5xxError(response.text)
+
+        if response.status_code == 403:
+            raise OutreachForbiddenError(
+                'HTTP-error-code: 403, Error: {}'.format(response.text))
 
         if response.status_code == 429:
             LOGGER.warning('Rate limit hit - 429')

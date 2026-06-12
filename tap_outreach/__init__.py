@@ -36,13 +36,14 @@ def check_auth(client):
 @singer.utils.handle_top_exception(LOGGER)
 def main():
     parsed_args = singer.utils.parse_args(REQUIRED_CONFIG_KEYS)
-    catalog = parsed_args.catalog if parsed_args.catalog else discover()
 
-    if parsed_args.discover:
-        write_catalog(catalog)
-    else:
-        with OutreachClient(parsed_args.config) as client:
-            check_auth(client)
+    with OutreachClient(parsed_args.config) as client:
+        check_auth(client)
+        if parsed_args.discover:
+            catalog = discover(client)
+            write_catalog(catalog)
+        else:
+            catalog = parsed_args.catalog if parsed_args.catalog else discover(client)
             _sync(client,
                 parsed_args.config,
                 catalog,

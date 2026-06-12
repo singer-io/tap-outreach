@@ -1,5 +1,11 @@
 # Changelog
 
+# 1.3.0
+  * Exclude 403-inaccessible streams from catalog during discovery [#45](https://github.com/singer-io/tap-outreach/pull/45)
+  * Added `OutreachForbiddenError` exception class raised on HTTP 403 responses
+  * Added unit tests for discovery access-check behaviour
+  * bump requests to version 2.34.2 and singer-python to version 6.8.0
+
 # 1.2.2
   * Bump requests to 2.33.0 for security updates [#37](https://github.com/singer-io/tap-outreach/pull/37)
 
