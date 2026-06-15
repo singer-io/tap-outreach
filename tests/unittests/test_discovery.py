@@ -1,11 +1,10 @@
 import unittest
-from unittest.mock import MagicMock, patch, call
+from unittest.mock import MagicMock, patch
 
 from tap_outreach.client import OutreachForbiddenError
 from tap_outreach.discover import (
     _apply_access_checks,
     _check_stream_access,
-    _prune_inaccessible_children,
     discover,
     get_schemas,
 )
@@ -91,27 +90,6 @@ class TestCheckStreamAccess(unittest.TestCase):
             _check_stream_access(self.client, self.stream_name)
 
 
-class TestPruneInaccessibleChildren(unittest.TestCase):
-    """
-    tap-outreach has no parent-child relationships so this is a no-op,
-    but should not mutate the dicts passed in.
-    """
-
-    def test_no_op_for_flat_streams(self):
-        schemas = {'accounts': {}, 'calls': {}}
-        field_metadata = {'accounts': [], 'calls': []}
-        _prune_inaccessible_children(schemas, field_metadata)
-        self.assertEqual(set(schemas.keys()), {'accounts', 'calls'})
-        self.assertEqual(set(field_metadata.keys()), {'accounts', 'calls'})
-
-    def test_empty_dicts_are_safe(self):
-        schemas = {}
-        field_metadata = {}
-        _prune_inaccessible_children(schemas, field_metadata)
-        self.assertEqual(schemas, {})
-        self.assertEqual(field_metadata, {})
-
-
 class TestApplyAccessChecks(unittest.TestCase):
     """Unit tests for _apply_access_checks()."""
 
@@ -146,7 +124,7 @@ class TestApplyAccessChecks(unittest.TestCase):
             _apply_access_checks(self.client, self.schemas, self.field_metadata)
             mock_logger.warning.assert_called_once()
             warning_msg = mock_logger.warning.call_args[0][0]
-            self.assertIn("do not have 'read' access", warning_msg)
+            self.assertIn("No 'read' access", warning_msg)
 
     @patch('tap_outreach.discover._check_stream_access', return_value=True)
     def test_all_accessible_no_warning_logged(self, mock_check):
@@ -159,7 +137,7 @@ class TestApplyAccessChecks(unittest.TestCase):
         with self.assertRaises(OutreachForbiddenError) as ctx:
             _apply_access_checks(self.client, self.schemas, self.field_metadata)
         self.assertIn('403', str(ctx.exception))
-        self.assertIn("do not have 'read' access", str(ctx.exception))
+        self.assertIn("do not have 'read' access to any supported streams", str(ctx.exception))
 
 
 class TestDiscover(unittest.TestCase):
@@ -208,7 +186,3 @@ class TestDiscover(unittest.TestCase):
         with patch('tap_outreach.discover._check_stream_access', return_value=False):
             with self.assertRaises(OutreachForbiddenError):
                 discover(self.client)
-
-
-if __name__ == '__main__':
-    unittest.main()

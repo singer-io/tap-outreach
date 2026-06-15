@@ -62,21 +62,13 @@ def _check_stream_access(client, stream_name):
     try:
         client.get(path=url_path, params='page[size]=1&count=false', endpoint=stream_name)
         return True
-    except OutreachForbiddenError:
+    except OutreachForbiddenError as exc:
         LOGGER.warning(
-            "Stream '%s' does not have read permission (403), excluding from catalog.",
+            "Permission Error: Stream '%s' %s. Excluding from catalog.",
             stream_name,
+            exc,
         )
         return False
-
-
-def _prune_inaccessible_children(schemas: dict, field_metadata: dict) -> None:
-    """
-    Remove child streams from the catalog whose parent stream was excluded.
-    Mutates schemas and field_metadata in place.
-    Note: tap-outreach has no parent-child stream relationships, so this is a no-op.
-    Included for pattern consistency with other Singer taps.
-    """
 
 
 def _apply_access_checks(client, schemas: dict, field_metadata: dict) -> None:
@@ -95,17 +87,14 @@ def _apply_access_checks(client, schemas: dict, field_metadata: dict) -> None:
         schemas.pop(stream_name, None)
         field_metadata.pop(stream_name, None)
 
-    _prune_inaccessible_children(schemas, field_metadata)
-
-    if inaccessible_streams:
-        if not schemas:
-            raise OutreachForbiddenError(
-                "HTTP-error-code: 403, Error: The account credentials supplied do not have 'read' access to any "
-                "of the streams supported by the tap. Data collection cannot be initiated due to lack of permissions."
-            )
+    if not schemas:
+        raise OutreachForbiddenError(
+            "HTTP-error-code: 403, Error: The credentials \
+                do not have 'read' access to any supported streams."
+        )
+    elif inaccessible_streams:
         LOGGER.warning(
-            "The account credentials supplied do not have 'read' access to the following stream(s): %s. "
-            "These streams have been excluded from the catalog.",
+            "No 'read' access to stream(s): %s. Excluded from catalog.",
             ", ".join(inaccessible_streams),
         )
 
