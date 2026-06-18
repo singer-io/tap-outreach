@@ -139,6 +139,17 @@ class TestApplyAccessChecks(unittest.TestCase):
         self.assertIn('403', str(ctx.exception))
         self.assertIn("do not have 'read' access to any supported streams", str(ctx.exception))
 
+    @patch('tap_outreach.discover._check_stream_access', return_value=False)
+    def test_all_inaccessible_exact_error_message(self, mock_check):
+        """Validate the exact error message raised when no streams are accessible."""
+        expected_message = (
+            "HTTP-error-code: 403, Error: The credentials "
+            "do not have 'read' access to any supported streams."
+        )
+        with self.assertRaises(OutreachForbiddenError) as ctx:
+            _apply_access_checks(self.client, self.schemas, self.field_metadata)
+        self.assertEqual(expected_message, str(ctx.exception))
+
 
 class TestDiscover(unittest.TestCase):
     """Unit tests for discover()."""

@@ -64,9 +64,9 @@ def _check_stream_access(client, stream_name):
         return True
     except OutreachForbiddenError as exc:
         LOGGER.warning(
-            "Permission Error: Stream '%s' %s. Excluding from catalog.",
+            "Unauthorized Stream: %s, excluding from catalog. HTTP-Error-Message: '%s'",
             stream_name,
-            exc,
+            str(exc),
         )
         return False
 
@@ -89,8 +89,8 @@ def _apply_access_checks(client, schemas: dict, field_metadata: dict) -> None:
 
     if not schemas:
         raise OutreachForbiddenError(
-            "HTTP-error-code: 403, Error: The credentials \
-                do not have 'read' access to any supported streams."
+            "HTTP-error-code: 403, Error: The credentials " \
+            "do not have 'read' access to any supported streams."
         )
     elif inaccessible_streams:
         LOGGER.warning(
