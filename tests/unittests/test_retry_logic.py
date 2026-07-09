@@ -105,3 +105,46 @@ class TestRetryLogic(unittest.TestCase):
             outreach_object.get("mock_url", "mock_path")
         # 5 is the max tries specified in the tap
         self.assertEqual(1, mock_session_request.call_count)
+
+    @patch("tap_outreach.client.OutreachClient.refresh")
+    @patch("tap_outreach.client.requests.Session.request")
+    def test_raises_forbidden_error_on_403(self, mock_session_request, _):
+        """`OutreachClient.get()` raises `OutreachForbiddenError` when the API
+        returns a 403 Forbidden response.
+        """
+        mock_session_request.return_value = Mockresponse(status_code=403)
+        mocked_config = {
+            "start_date": "2019-01-01T00:00:00Z",
+            "client_id": "mock_client",
+            "client_secret": "mock_secret",
+            "redirect_uri": "mock_uri",
+            "refresh_token": "mock_token",
+            "request_timeout": 5,
+        }
+
+        outreach_object = client.OutreachClient(mocked_config)
+        with self.assertRaises(client.OutreachForbiddenError):
+            outreach_object.get("mock_url", "mock_path")
+
+    @patch("tap_outreach.client.OutreachClient.refresh")
+    @patch("tap_outreach.client.requests.Session.request")
+    def test_no_retry_on_403(self, mock_session_request, _):
+        """`OutreachClient.get()` does not retry on a 403 Forbidden response.
+        Unlike 5xx or 429 errors, a 403 is not a transient error — the request
+        should fail immediately after a single attempt.
+        """
+        mock_session_request.return_value = Mockresponse(status_code=403)
+        mocked_config = {
+            "start_date": "2019-01-01T00:00:00Z",
+            "client_id": "mock_client",
+            "client_secret": "mock_secret",
+            "redirect_uri": "mock_uri",
+            "refresh_token": "mock_token",
+            "request_timeout": 5,
+        }
+
+        outreach_object = client.OutreachClient(mocked_config)
+        with self.assertRaises(client.OutreachForbiddenError):
+            outreach_object.get("mock_url", "mock_path")
+        # Must be exactly 1 — 403 should not trigger any retry
+        self.assertEqual(1, mock_session_request.call_count)

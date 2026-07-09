@@ -4,6 +4,9 @@ import singer
 from singer import metadata
 from singer.catalog import Catalog, CatalogEntry, Schema
 from .sync import STREAM_CONFIGS
+from .client import OutreachForbiddenError
+
+LOGGER = singer.get_logger()
 
 
 def get_abs_path(path):
@@ -50,20 +53,73 @@ def get_schemas():
     return schemas, schemas_metadata
 
 
-def discover():
+def _check_stream_access(client, stream_name):
+    """
+    Make a minimal probe request to verify read access to a stream.
+    Returns True if accessible, False if a 403 Forbidden error is raised.
+    """
+    url_path = STREAM_CONFIGS[stream_name]['url_path']
+    try:
+        client.get(path=url_path, params='page[size]=1&count=false', endpoint=stream_name)
+        return True
+    except OutreachForbiddenError as exc:
+        LOGGER.warning(
+            "Unauthorized Stream: %s, excluding from catalog. HTTP-Error-Message: '%s'",
+            stream_name,
+            str(exc),
+        )
+        return False
+
+
+def _apply_access_checks(client, schemas: dict, field_metadata: dict) -> None:
+    """
+    Probe each stream for read access and remove inaccessible streams from
+    schemas and field_metadata in place.
+    Raises OutreachForbiddenError if no streams are accessible.
+    """
+    inaccessible_streams = [
+        stream_name
+        for stream_name in list(schemas.keys())
+        if not _check_stream_access(client, stream_name)
+    ]
+
+    for stream_name in inaccessible_streams:
+        schemas.pop(stream_name, None)
+        field_metadata.pop(stream_name, None)
+
+    if not schemas:
+        raise OutreachForbiddenError(
+            "HTTP-error-code: 403, Error: The credentials " \
+            "do not have 'read' access to any supported streams."
+        )
+    elif inaccessible_streams:
+        LOGGER.warning(
+            "No 'read' access to stream(s): %s. Excluded from catalog.",
+            ", ".join(inaccessible_streams),
+        )
+
+
+def discover(client) -> Catalog:
+    """
+    Run the discovery mode, prepare the catalog file and return the catalog.
+    Access to each stream is verified using the provided client and streams
+    the credentials cannot read are excluded from the returned catalog.
+    """
     schemas, field_metadata = get_schemas()
+    _apply_access_checks(client, schemas, field_metadata)
+
     catalog = Catalog([])
 
     for stream_name, schema_dict in schemas.items():
         schema = Schema.from_dict(schema_dict)
-        metadata = field_metadata[stream_name]
+        mdata = field_metadata[stream_name]
 
         catalog.streams.append(CatalogEntry(
             stream=stream_name,
             tap_stream_id=stream_name,
             key_properties=['id'],
             schema=schema,
-            metadata=metadata
+            metadata=mdata
         ))
 
     return catalog
