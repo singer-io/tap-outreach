@@ -14,7 +14,7 @@ class OutreachStartdateTest(StartDateTest, OutreachBase):
 
     def streams_to_test(self):
         # Skip streams due to lack of test data
-        streams_to_exclude = {"mailings", "prospects", "sequence_states", "duties", "sequence_templates"}
+        streams_to_exclude = {"mailings", "prospects", "sequence_states", "duties", "sequence_templates", "teams"}
         return self.expected_stream_names().difference(streams_to_exclude)
 
     @property

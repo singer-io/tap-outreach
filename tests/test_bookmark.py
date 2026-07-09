@@ -24,10 +24,8 @@ class OutreachBookmarkTest(BookmarkTest, OutreachBase):
             "prospects": {"updatedAt": "2016-07-07T14:22:04.624Z"},
             "stages": {"updatedAt": "2020-05-06T18:54:08.250Z"},
             "sequences": {"updatedAt": "2020-11-06T20:17:17Z"},
-            "sequence_states": {"updatedAt": "2018-01-17T13:45:25.125Z"},
             "sequence_steps": {"updatedAt": "2019-10-10T03:23:15.466Z"},
             "tasks": {"updatedAt": "2020-05-06T18:54:08.250Z"},
-            "teams": {"updatedAt": "2020-11-06T20:17:17Z"},
             "users": {"updatedAt": "2019-10-10T03:23:15.466Z"},
         }
     }
@@ -42,7 +40,7 @@ class OutreachBookmarkTest(BookmarkTest, OutreachBase):
 
     def streams_to_test(self):
         # Skip streams due to lack of test data
-        streams_to_exclude = {"mailings", "duties", "sequence_templates"}
+        streams_to_exclude = {"mailings", "duties", "sequence_templates", "teams", "sequence_states"}
         return self.expected_stream_names().difference(streams_to_exclude)
 
     def calculate_new_bookmarks(self):
