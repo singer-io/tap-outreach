@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from tap_tester.base_suite_tests.bookmark_test import BookmarkTest
 from base import OutreachBase
 
@@ -42,6 +44,28 @@ class OutreachBookmarkTest(BookmarkTest, OutreachBase):
         # Skip streams due to lack of test data
         streams_to_exclude = {"mailings", "duties", "sequence_templates", "teams", "sequence_states"}
         return self.expected_stream_names().difference(streams_to_exclude)
+
+    def test_bookmark_format(self):
+        """Outreach bookmarks use UTC timestamps with optional fractional seconds."""
+        for stream in self.test_streams:
+            for sync_number, bookmarks in enumerate(
+                    (self.bookmark_values_1, self.bookmark_values_2), start=1):
+                with self.subTest(stream=stream, sync=sync_number):
+                    replication_method = self.expected_replication_methods.get(stream, {})
+                    value = bookmarks.get(stream, {})
+                    if replication_method == self.INCREMENTAL:
+                        self.assertIsNotNone(value)
+                        self.assertIsInstance(value, str)
+                        self.assertRegex(
+                            value,
+                            r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?Z\Z",
+                        )
+                        timestamp_format = (
+                            self.bookmark_format if "." in value else "%Y-%m-%dT%H:%M:%SZ"
+                        )
+                        self.assertIsInstance(datetime.strptime(value, timestamp_format), datetime)
+                    elif replication_method == self.FULL_TABLE:
+                        self.assertIsNone(value)
 
     def calculate_new_bookmarks(self):
         """
